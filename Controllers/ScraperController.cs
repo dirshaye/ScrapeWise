@@ -102,4 +102,22 @@ public class ScraperController : Controller
             .ToListAsync();
         return View(jobs);
     }
+
+    // POST: /Scraper/Delete/{id}
+    [HttpPost]
+    [ValidateAntiForgeryToken]
+    public async Task<IActionResult> Delete(int id)
+    {
+        var job = await _context.ScrapingJobs.FindAsync(id);
+        if (job == null)
+        {
+            return NotFound();
+        }
+
+        _context.ScrapingJobs.Remove(job);
+        await _context.SaveChangesAsync();
+
+        TempData["SuccessMessage"] = "Job deleted successfully.";
+        return RedirectToAction(nameof(Dashboard));
+    }
 }
