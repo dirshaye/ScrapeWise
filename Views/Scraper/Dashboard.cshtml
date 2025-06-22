@@ -57,6 +57,11 @@
 
     <h2 class="mt-4 mb-4">Scraping Jobs Dashboard</h2>
 
+    @if (TempData["SuccessMessage"] != null)
+    {
+        <div class="alert alert-success">@TempData["SuccessMessage"]</div>
+    }
+
     <div class="dashboard-summary">
         <div class="summary-card card-glass p-4">
             <span class="summary-icon">📊</span>
@@ -79,7 +84,7 @@
                     <tr>
                         <th><span title="Job ID">#️⃣</span></th>
                         <th><span title="Target URL">🔗</span> Target URL</th>
-                        <th><span title="Results"></span> Results</th>
+                        <th><span title="Results">📄</span> Results</th>
                         <th><span title="Actions">⚡</span> Actions</th>
                     </tr>
                 </thead>
@@ -92,6 +97,31 @@
                         <td>@(job.ScrapingResults?.Count ?? 0)</td>
                         <td>
                             <a class="btn btn-sm btn-primary" asp-action="JobDetails" asp-route-id="@job.ScrapingJobId">View Details</a>
+                            <button type="button" class="btn btn-sm btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#deleteModal-@job.ScrapingJobId">
+                                Delete
+                            </button>
+
+                            <!-- Delete Confirmation Modal -->
+                            <div class="modal fade" id="deleteModal-@job.ScrapingJobId" tabindex="-1" aria-labelledby="deleteModalLabel-@job.ScrapingJobId" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content card-glass">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title" id="deleteModalLabel-@job.ScrapingJobId">Confirm Deletion</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            Are you sure you want to delete this job? This action cannot be undone.
+                                        </div>
+                                        <div class="modal-footer">
+                                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Cancel</button>
+                                            <form asp-action="Delete" asp-route-id="@job.ScrapingJobId" method="post" class="d-inline">
+                                                @Html.AntiForgeryToken()
+                                                <button type="submit" class="btn btn-danger">Delete</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </td>
                     </tr>
                 }
