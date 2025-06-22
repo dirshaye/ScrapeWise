@@ -4774,9 +4774,9 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.csproj",
-      "projectName": "ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-",
-      "projectPath": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.csproj",
+      "projectUniqueName": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/ScrapeWise.csproj",
+      "projectName": "ScrapeWise",
+      "projectPath": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/ScrapeWise.csproj",
       "packagesPath": "/home/dre/.nuget/packages/",
       "outputPath": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/obj/",
       "projectStyle": "PackageReference",

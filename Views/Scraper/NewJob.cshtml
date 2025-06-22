@@ -1,0 +1,113 @@
+<div class="container mt-4">
+    @{
+        ViewData["Title"] = "New Scraping Job";
+    }
+
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+    <style>
+    .scrape-card {
+        padding: 2.5rem 2rem 2rem 2rem;
+        color: #fff;
+        font-family: 'Inter', sans-serif;
+        margin-bottom: 2rem;
+    }
+    .scrape-illustration {
+        display: block;
+        margin: 0 auto 2rem auto;
+        max-width: 220px;
+    }
+    .form-label {
+        color: #fff;
+        font-weight: 600;
+    }
+    .form-control {
+        border-radius: 1rem;
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        box-shadow: 0 2px 8px 0 rgba(0,0,0, 0.1);
+        font-size: 1.1rem;
+        background-color: rgba(255, 255, 255, 0.1);
+        color: #fff;
+    }
+    .form-control::placeholder {
+        color: #aaa;
+    }
+    .form-control:focus {
+        background-color: rgba(255, 255, 255, 0.2);
+        color: #fff;
+        box-shadow: 0 0 15px var(--primary-glow);
+        border-color: rgba(255, 255, 255, 0.5);
+    }
+    .btn-modern {
+        padding: 0.7rem 2rem;
+        border-radius: 2rem;
+        background: linear-gradient(90deg, #2575fc 0%, #6a11cb 100%);
+        color: #fff;
+        font-weight: 700;
+        border: none;
+        box-shadow: 0 4px 14px 0 rgba(0,0,0, 0.2);
+        transition: all 0.3s ease;
+    }
+    .btn-modern:hover {
+        transform: translateY(-2px) scale(1.04);
+        box-shadow: 0 0 20px var(--secondary-glow);
+    }
+    .btn-secondary {
+        border-radius: 2rem;
+    }
+    </style>
+
+    <div class="row justify-content-center">
+        <div class="col-md-8">
+            <div class="scrape-card card-glass">
+                <img class="scrape-illustration" src="https://undraw.co/api/illustrations/search?color=6a11cb" alt="Scraping Illustration" />
+                <h2 class="mb-4" style="font-family: 'Inter', sans-serif; font-weight:700;">New Scraping Job</h2>
+                <form asp-action="NewJob" method="post">
+                    <div class="mb-3">
+                        <label for="targetUrl" class="form-label">Target URL</label>
+                        <input type="text" class="form-control" name="targetUrl" placeholder="https://example.com" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="cssSelector" class="form-label">CSS Selector</label>
+                        <input type="text" class="form-control" name="cssSelector" placeholder=".product-title" required />
+                    </div>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">
+                            @foreach (var error in ViewData.ModelState.Values.SelectMany(v => v.Errors))
+                            {
+                                <div>@error.ErrorMessage</div>
+                            }
+                        </div>
+                    }
+                    @if (ViewBag.Message != null)
+                    {
+                        <div class="alert alert-info">@ViewBag.Message</div>
+                    }
+                    <button type="submit" class="btn btn-modern">Run Scrape</button>
+                    <a class="btn btn-secondary ms-2" asp-action="Dashboard">Back to Dashboard</a>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    @if (ViewBag.Results != null)
+    {
+        <div class="row justify-content-center mt-4">
+            <div class="col-md-8">
+                <div class="card-glass p-3">
+                    <div class="card-header bg-success text-white" style="background:transparent !important; border-bottom: 1px solid rgba(255,255,255,0.2);">
+                        Scraped Results
+                    </div>
+                    <ul class="list-group list-group-flush">
+                        @foreach (var result in ViewBag.Results)
+                        {
+                            <li class="list-group-item" style="background:transparent; color: #fff;">@result</li>
+                        }
+                    </ul>
+                </div>
+            </div>
+        </div>
+    }
+</div>

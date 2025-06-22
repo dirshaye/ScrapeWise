@@ -3,17 +3,78 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>@ViewData["Title"] - ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_</title>
+    <title>@ViewData["Title"] - ScrapeWise</title>
     <script type="importmap"></script>
     <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
     <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
     <link rel="stylesheet" href="~/ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_.styles.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <style>
+        :root {
+            --primary-glow: rgba(138, 43, 226, 0.5);
+            --secondary-glow: rgba(37, 117, 252, 0.5);
+        }
+        body {
+            background-color: #000;
+            background-image: 
+                radial-gradient(at 20% 20%, hsl(210, 100%, 10%) 0, transparent 50%),
+                radial-gradient(at 80% 20%, hsl(280, 100%, 10%) 0, transparent 50%),
+                radial-gradient(at 20% 80%, hsl(280, 100%, 15%) 0, transparent 50%),
+                radial-gradient(at 80% 80%, hsl(210, 100%, 15%) 0, transparent 50%);
+            color: #f0f0f0;
+        }
+        .navbar {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            position: relative;
+        }
+        .navbar::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
+            filter: blur(2px);
+        }
+        .card-glass {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 1rem;
+            box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+        }
+        .footer {
+            background: transparent;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 1.5rem 0;
+        }
+        .navbar-brand {
+            text-shadow: 0 0 10px var(--primary-glow);
+            transition: all 0.3s ease;
+        }
+        .navbar-brand:hover {
+            text-shadow: 0 0 20px var(--secondary-glow);
+        }
+        .nav-link {
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem !important;
+            border-radius: 0.5rem;
+        }
+        .nav-link:hover {
+            color: #fff !important;
+            background: rgba(255, 255, 255, 0.1);
+            text-shadow: 0 0 5px var(--secondary-glow);
+        }
+    </style>
 </head>
-<body>
+<body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-toggleable-sm navbar-light bg-white border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-sm navbar-dark border-bottom box-shadow mb-3">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_</a>
+                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ScrapeWise</a>
                 <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
                         aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
@@ -21,25 +82,28 @@
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Scraper" asp-action="Dashboard">Dashboard</a>
                         </li>
                         <li class="nav-item">
-                            <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+                            <a class="nav-link text-light" asp-area="" asp-controller="Scraper" asp-action="NewJob">New Scrape</a>
+                        </li>
+                    </ul>
+                    <ul class="navbar-nav">
+                        <li class="nav-item">
+                            <a class="nav-link text-light" asp-area="" asp-controller="Profile" asp-action="Index">Profile</a>
                         </li>
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
-    </div>
+    <main role="main" class="d-flex flex-column flex-grow-1">
+        @RenderBody()
+    </main>
 
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2025 - ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_ - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
+    <footer class="border-top footer text-muted mt-auto">
+        <div class="container text-center">
+            <p class="mb-0">&copy; 2025 ScrapeWise</p>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
