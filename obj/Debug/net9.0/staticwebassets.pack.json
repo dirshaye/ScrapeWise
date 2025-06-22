@@ -1,8 +1,8 @@
 {
   "Files": [
     {
-      "Id": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/obj/Debug/net9.0/scopedcss/projectbundle/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.bundle.scp.css",
-      "PackagePath": "staticwebassets/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.xssl3afsul.bundle.scp.css"
+      "Id": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/obj/Debug/net9.0/scopedcss/projectbundle/ScrapeWise.bundle.scp.css",
+      "PackagePath": "staticwebassets/ScrapeWise.jox4yjh3eg.bundle.scp.css"
     },
     {
       "Id": "/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/wwwroot/css/site.css",
@@ -257,24 +257,24 @@
       "PackagePath": "staticwebassets/lib/jquery/dist/jquery.slim.min.map"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.ScrapeWise.Microsoft.AspNetCore.StaticWebAssetEndpoints.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssetEndpoints.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.Microsoft.AspNetCore.StaticWebAssets.props",
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.ScrapeWise.Microsoft.AspNetCore.StaticWebAssets.props",
       "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.props",
-      "PackagePath": "build\\ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.props"
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.build.ScrapeWise.props",
+      "PackagePath": "build\\ScrapeWise.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.props",
-      "PackagePath": "buildMultiTargeting\\ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.props"
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildMultiTargeting.ScrapeWise.props",
+      "PackagePath": "buildMultiTargeting\\ScrapeWise.props"
     },
     {
-      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.props",
-      "PackagePath": "buildTransitive\\ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.props"
+      "Id": "obj/Debug/net9.0/staticwebassets/msbuild.buildTransitive.ScrapeWise.props",
+      "PackagePath": "buildTransitive\\ScrapeWise.props"
     }
   ],
   "ElementsToRemove": []

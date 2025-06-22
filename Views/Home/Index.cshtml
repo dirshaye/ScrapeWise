@@ -2,7 +2,56 @@
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+
+<style>
+.hero-section {
+    display: flex;
+    flex-grow: 1; /* Fill the vertical space */
+    align-items: center;
+    justify-content: center;
+    font-family: 'Inter', sans-serif;
+    /* Background is now inherited globally */
+}
+.hero-content {
+    text-align: center;
+    padding: 4rem 3rem;
+}
+.hero-title {
+    font-size: 3.5rem;
+    font-weight: 700;
+    margin-bottom: 1rem;
+    text-shadow: 0 0 20px var(--primary-glow);
+}
+.hero-subtitle {
+    font-size: 1.5rem;
+    margin-bottom: 2.5rem;
+    color: #ccc;
+}
+.hero-btn {
+    padding: 0.75rem 2rem;
+    font-size: 1.2rem;
+    border: none;
+    border-radius: 2rem;
+    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+    color: #fff;
+    font-weight: 700;
+    box-shadow: 0 4px 14px 0 rgba(0,0,0, 0.25);
+    transition: all 0.3s ease;
+    text-decoration: none;
+    display: inline-block;
+}
+.hero-btn:hover {
+    transform: translateY(-2px) scale(1.04);
+    box-shadow: 0 0 25px var(--secondary-glow);
+}
+</style>
+
+<div class="hero-section">
+    <div class="hero-content card-glass">
+        <h1 class="hero-title">ScrapeWise</h1>
+        <p class="hero-subtitle">The intelligent, modern dashboard for effortless web data extraction.</p>
+        <a class="hero-btn" asp-controller="Scraper" asp-action="NewJob">Start Scraping</a>
+    </div>
 </div>

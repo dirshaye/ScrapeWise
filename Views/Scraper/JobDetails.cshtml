@@ -1,0 +1,99 @@
+<div class="container mt-4">
+    @model ScrapingJob
+
+    @{
+        ViewData["Title"] = "Scraping Job Results";
+    }
+
+    <!-- Google Fonts and Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+
+    <style>
+    .details-container {
+        font-family: 'Inter', sans-serif;
+    }
+    .details-card {
+        /* Uses the global .card-glass style */
+        margin-bottom: 2rem;
+        overflow: hidden;
+    }
+    .details-header {
+        background: linear-gradient(90deg, rgba(106, 28, 203, 0.5), rgba(37, 117, 252, 0.5));
+        color: #fff;
+        padding: 1.5rem 2rem;
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+    .details-body {
+        padding: 2rem;
+    }
+    .details-body p {
+        font-size: 1.1rem;
+        line-height: 1.8;
+    }
+    .details-body .fas {
+        color: #a07eff;
+        margin-right: 1rem;
+        width: 20px;
+    }
+    .results-header {
+        background: linear-gradient(90deg, rgba(52, 58, 64, 0.5), rgba(52, 58, 64, 0.2));
+    }
+    .list-group-item {
+        background-color: transparent !important;
+        color: #f0f0f0;
+        border-color: rgba(255, 255, 255, 0.1) !important;
+    }
+    .empty-illustration {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        margin: 2rem 0;
+        padding: 2rem;
+    }
+    </style>
+
+    <div class="details-container">
+        <h2 class="mt-4 mb-4" style="font-weight: 700;">Scraping Job Details</h2>
+
+        <div class="row justify-content-center">
+            <div class="col-md-9">
+                <div class="details-card card-glass">
+                    <div class="details-header">
+                        Job Information
+                    </div>
+                    <div class="details-body">
+                        <p><i class="fas fa-hashtag"></i><strong>Job ID:</strong> @Model.ScrapingJobId</p>
+                        <p><i class="fas fa-link"></i><strong>URL:</strong> <a href="@Model.TargetUrl" target="_blank">@Model.TargetUrl</a></p>
+                        <p><i class="fas fa-code"></i><strong>CSS Selector:</strong> <code>@Model.CssSelector</code></p>
+                        <p><i class="fas fa-clock"></i><strong>Created At:</strong> @Model.CreatedAt.ToString("f")</p>
+                    </div>
+                </div>
+
+                <div class="details-card card-glass">
+                    <div class="details-header results-header">
+                        Extracted Results
+                    </div>
+                    @if (Model.ScrapingResults != null && Model.ScrapingResults.Any())
+                    {
+                        <ul class="list-group list-group-flush">
+                            @foreach (var result in Model.ScrapingResults)
+                            {
+                                <li class="list-group-item">@result.ExtractedText</li>
+                            }
+                        </ul>
+                    }
+                    else
+                    {
+                        <div class="empty-illustration">
+                            <img src="https://undraw.co/api/illustrations/not-found?color=6a11cb" alt="No results" style="max-width: 280px; width: 100%; margin-bottom: 1.5rem;" />
+                            <div class="alert alert-info mb-0">No results were found for this job.</div>
+                        </div>
+                    }
+                </div>
+                <a class="btn btn-secondary mt-2" asp-action="Dashboard" style="border-radius: 2rem;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
+            </div>
+        </div>
+    </div>
+</div>
