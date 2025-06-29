@@ -12,4 +12,7 @@ public class ScrapingJob
     public User? User { get; set; }
 
     public ICollection<ScrapingResult> ScrapingResults { get; set; } = new List<ScrapingResult>();
+    
+    // Many-to-Many relationship with Tag
+    public ICollection<Tag> Tags { get; set; } = new List<Tag>();
 }

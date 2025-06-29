@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Linq;
 using System.Threading.Tasks;
 
 public class ProfileController : Controller
@@ -12,51 +11,36 @@ public class ProfileController : Controller
         _context = context;
     }
 
-    private async Task<User> GetOrCreateDefaultUserAsync()
-    {
-        var user = await _context.Users.Include(u => u.ConfigProfile).FirstOrDefaultAsync();
-        if (user == null)
-        {
-            user = new User { Email = "default@example.com", PasswordHash = "..." };
-            user.ConfigProfile = new ConfigProfile { DisplayName = "Default User" };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-        }
-        else if (user.ConfigProfile == null)
-        {
-            user.ConfigProfile = new ConfigProfile { DisplayName = "Default User" };
-            await _context.SaveChangesAsync();
-        }
-        return user;
-    }
-
-    // GET: /Profile
     public async Task<IActionResult> Index()
     {
-        var user = await GetOrCreateDefaultUserAsync();
-        return View(user.ConfigProfile);
+        var user = await _context.Users.Include(u => u.Profile).FirstOrDefaultAsync();
+        if (user == null)
+            return NotFound();
+
+        if (user.Profile == null)
+            user.Profile = new Profile { DisplayName = "Default User" };
+
+        return View(user.Profile);
     }
 
-    // POST: /Profile
     [HttpPost]
     [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Index(ConfigProfile profile)
+    public async Task<IActionResult> Index(Profile profile)
     {
-        if (ModelState.IsValid)
-        {
-            var user = await _context.Users.Include(u => u.ConfigProfile).FirstOrDefaultAsync();
-            if (user != null)
-            {
-                user.ConfigProfile.DisplayName = profile.DisplayName;
-                user.ConfigProfile.AvatarUrl = profile.AvatarUrl;
-                user.ConfigProfile.UserAgent = profile.UserAgent;
-                user.ConfigProfile.DelayBetweenRequests = profile.DelayBetweenRequests;
-                
-                await _context.SaveChangesAsync();
-                TempData["SuccessMessage"] = "Profile updated successfully!";
-                return RedirectToAction("Index");
-            }
-        }
-        return View(profile);
+        var user = await _context.Users.Include(u => u.Profile).FirstOrDefaultAsync();
+        if (user == null)
+            return NotFound();
+
+        if (user.Profile == null)
+            user.Profile = new Profile();
+
+        user.Profile.DisplayName = profile.DisplayName;
+        user.Profile.AvatarUrl = profile.AvatarUrl;
+        user.Profile.UserAgent = profile.UserAgent;
+        user.Profile.DelayBetweenRequests = profile.DelayBetweenRequests;
+
+        await _context.SaveChangesAsync();
+        TempData["SuccessMessage"] = "Profile updated successfully!";
+        return View(user.Profile);
     }
 } 
