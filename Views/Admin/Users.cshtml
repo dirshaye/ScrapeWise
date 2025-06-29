@@ -1,0 +1,66 @@
+@model IEnumerable<User>
+@using System.Security.Claims
+@{
+    ViewData["Title"] = "User Management";
+    var currentUserEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+}
+<div class="container mt-5">
+    <div class="card card-glass p-4">
+        <h2 class="mb-4">User Management</h2>
+        <table class="table table-dark table-hover rounded">
+            <thead>
+                <tr>
+                    <th>Email</th>
+                    <th>Username</th>
+                    <th>Password</th>
+                    <th>Role</th>
+                    <th>Status</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var user in Model)
+                {
+                    <tr>
+                        <td>@user.Email</td>
+                        <td>@user.UserName</td>
+                        <td>
+                            <span id="pw-@user.Id" style="letter-spacing:2px;">********</span>
+                            <button type="button" class="btn btn-sm btn-secondary ms-2" id="btn-pw-@user.Id" onclick="togglePassword(@user.Id, '@user.Password')">Show Password</button>
+                        </td>
+                        <td>@user.Role</td>
+                        <td>@(user.IsActive ? "Active" : "Inactive")</td>
+                        <td>
+                            @if (user.Email != currentUserEmail)
+                            {
+                                <form asp-action="DeleteUser" asp-controller="Admin" method="post" style="display:inline;" onsubmit="return confirm('Are you sure you want to delete this user?');">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                                </form>
+                                <form asp-action="ToggleActiveUser" asp-controller="Admin" method="post" style="display:inline; margin-left: 5px;">
+                                    <input type="hidden" name="id" value="@user.Id" />
+                                    <button type="submit" class="btn btn-sm @(user.IsActive ? "btn-warning" : "btn-success")">
+                                        @(user.IsActive ? "Deactivate" : "Activate")
+                                    </button>
+                                </form>
+                            }
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+<script>
+function togglePassword(userId, password) {
+    var span = document.getElementById('pw-' + userId);
+    var btn = document.getElementById('btn-pw-' + userId);
+    if (span.innerText === '********') {
+        span.innerText = password;
+        btn.innerText = 'Hide Password';
+    } else {
+        span.innerText = '********';
+        btn.innerText = 'Show Password';
+    }
+}
+</script> 

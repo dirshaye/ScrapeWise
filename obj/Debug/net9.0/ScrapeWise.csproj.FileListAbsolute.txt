@@ -231,3 +231,4 @@
 /home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/obj/Debug/net9.0/ScrapeWise.pdb
 /home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/obj/Debug/net9.0/ScrapeWise.genruntimeconfig.cache
 /home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/obj/Debug/net9.0/ref/ScrapeWise.dll
+/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/appsettings.Production.json

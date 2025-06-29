@@ -72,38 +72,80 @@
 </head>
 <body class="d-flex flex-column min-vh-100">
     <header>
-        <nav class="navbar navbar-expand-sm navbar-dark border-bottom box-shadow mb-3">
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
             <div class="container-fluid">
-                <a class="navbar-brand" asp-area="" asp-controller="Home" asp-action="Index">ScrapeWise</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target=".navbar-collapse" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
+                <a class="navbar-brand d-flex align-items-center gap-2" href="/">
+                    <svg width="32" height="32" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <circle cx="16" cy="16" r="15" fill="url(#aurora-gradient)" stroke="#fff" stroke-width="2"/>
+                        <path d="M10 22C12 18 20 18 22 22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                        <ellipse cx="16" cy="14" rx="6" ry="4" fill="#fff" fill-opacity="0.15"/>
+                        <circle cx="16" cy="14" r="2" fill="#fff"/>
+                        <defs>
+                            <linearGradient id="aurora-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#6a11cb"/>
+                                <stop offset="1" stop-color="#2575fc"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                    <span style="font-family: 'Segoe UI', 'Montserrat', Arial, sans-serif; font-weight: 700; letter-spacing: 1px;">ScrapeWise</span>
+                </a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="navbar-toggler-icon"></span>
                 </button>
-                <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
-                    <ul class="navbar-nav flex-grow-1">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Scraper" asp-action="Dashboard">Dashboard</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Scraper" asp-action="NewJob">New Scrape</a>
-                        </li>
-                    </ul>
-                    <ul class="navbar-nav">
-                        <li class="nav-item">
-                            <a class="nav-link text-light" asp-area="" asp-controller="Profile" asp-action="Index">Profile</a>
-                        </li>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav ms-auto">
+                        @if (User.Identity.IsAuthenticated)
+                        {
+                            var isAdmin = User.IsInRole("Admin");
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Scraper/Dashboard">Dashboard</a>
+                            </li>
+                            @if (isAdmin)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Admin/Users">User Management</a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Tags">Tag Management</a>
+                                </li>
+                            }
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Profile/Index">Profile</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Home/Help">Help & Examples</a>
+                            </li>
+                            <li class="nav-item">
+                                <form asp-controller="Account" asp-action="Logout" method="post" class="d-inline">
+                                    <button type="submit" class="btn btn-link nav-link" style="display:inline;">Logout</button>
+                                </form>
+                            </li>
+                        }
+                        else
+                        {
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Home/Docs">API Docs</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Login">Login</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" href="/Account/Register">Create Account</a>
+                            </li>
+                        }
                     </ul>
                 </div>
             </div>
         </nav>
     </header>
-    <main role="main" class="d-flex flex-column flex-grow-1">
+    <main class="flex-fill">
         @RenderBody()
     </main>
-
-    <footer class="border-top footer text-muted mt-auto">
-        <div class="container text-center">
-            <p class="mb-0">&copy; 2025 ScrapeWise</p>
+    <footer class="footer mt-auto text-center" style="background: rgba(255,255,255,0.07); border-top: 1px solid rgba(255,255,255,0.15); box-shadow: 0 -2px 16px 0 rgba(106,17,203,0.10); color: #fff; font-family: 'Inter', sans-serif;">
+        <div class="container d-flex justify-content-center">
+            <div style="width:100%; max-width: 700px;">
+                <span>&copy; ScrapeWise</span>
+            </div>
         </div>
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>

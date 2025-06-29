@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250629091814_AddTagsAndApiSupport")]
-    partial class AddTagsAndApiSupport
+    [Migration("20250629144635_MakeUserAgentNullable")]
+    partial class MakeUserAgentNullable
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)

@@ -162,6 +162,16 @@
                         <label for="cssSelector" class="form-label">CSS Selector</label>
                         <input type="text" class="form-control" name="cssSelector" placeholder=".product-title" required />
                     </div>
+                    <div class="mb-3">
+                        <label for="selectedTags" class="form-label">Tags (optional)</label>
+                        <select name="selectedTags" id="selectedTags" class="form-control" multiple>
+                            @foreach (var tag in (IEnumerable<Tag>)ViewBag.Tags)
+                            {
+                                <option value="@tag.TagId">@tag.Name</option>
+                            }
+                        </select>
+                        <small class="form-text text-muted">Hold Ctrl (Windows) or Cmd (Mac) to select multiple tags.</small>
+                    </div>
                     @if (!ViewData.ModelState.IsValid)
                     {
                         <div class="alert alert-danger">

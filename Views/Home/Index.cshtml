@@ -1,57 +1,119 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
+﻿@using Microsoft.AspNetCore.Http
+@inject IHttpContextAccessor HttpContextAccessor
+@{
+    var user = HttpContextAccessor.HttpContext.User;
+    bool isAuthenticated = user.Identity.IsAuthenticated;
+    string username = user.Identity.Name ?? "User";
+}
+
+@{
+    ViewData["Title"] = "Home";
 }
 
 <!-- Google Fonts -->
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
 
 <style>
-.hero-section {
-    display: flex;
-    flex-grow: 1; /* Fill the vertical space */
-    align-items: center;
-    justify-content: center;
-    font-family: 'Inter', sans-serif;
-    /* Background is now inherited globally */
-}
-.hero-content {
-    text-align: center;
-    padding: 4rem 3rem;
-}
-.hero-title {
-    font-size: 3.5rem;
-    font-weight: 700;
-    margin-bottom: 1rem;
-    text-shadow: 0 0 20px var(--primary-glow);
-}
-.hero-subtitle {
-    font-size: 1.5rem;
-    margin-bottom: 2.5rem;
-    color: #ccc;
-}
-.hero-btn {
-    padding: 0.75rem 2rem;
-    font-size: 1.2rem;
-    border: none;
-    border-radius: 2rem;
-    background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
-    color: #fff;
-    font-weight: 700;
-    box-shadow: 0 4px 14px 0 rgba(0,0,0, 0.25);
-    transition: all 0.3s ease;
-    text-decoration: none;
-    display: inline-block;
-}
-.hero-btn:hover {
-    transform: translateY(-2px) scale(1.04);
-    box-shadow: 0 0 25px var(--secondary-glow);
-}
+    body.home-bg {
+        background: url('https://images.unsplash.com/photo-1461749280684-dccba630e2f6?auto=format&fit=crop&w=1500&q=80') no-repeat center center fixed;
+        background-size: cover;
+        min-height: 100vh;
+    }
+    .center-vh {
+        min-height: 100vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+    .card-glass {
+        background: rgba(30, 30, 60, 0.90);
+        color: #fff;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        border-radius: 2rem;
+    }
+    .card-glass h1, .card-glass p, .card-glass li {
+        color: #fff !important;
+        text-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    }
+    .btn-modern {
+        background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%);
+        color: #fff;
+        font-weight: 700;
+        border: none;
+        border-radius: 2rem;
+        box-shadow: 0 4px 14px 0 rgba(0,0,0, 0.2);
+        transition: all 0.3s ease;
+    }
+    .btn-modern:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 0 20px var(--secondary-glow);
+    }
 </style>
 
-<div class="hero-section">
-    <div class="hero-content card-glass">
-        <h1 class="hero-title">ScrapeWise</h1>
-        <p class="hero-subtitle">The intelligent, modern dashboard for effortless web data extraction.</p>
-        <a class="hero-btn" asp-controller="Scraper" asp-action="NewJob">Start Scraping</a>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        document.body.classList.add('home-bg');
+    });
+</script>
+
+@if (isAuthenticated)
+{
+    <div class="container center-vh">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card card-glass p-5 text-center">
+                    <h1 class="display-4 mb-3">Welcome to ScrapeWise Dashboard</h1>
+                    <p class="lead mb-4">
+                        Jump to your dashboard, manage your profile, or explore our documentation below.
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 mb-4">
+                        <a href="/Scraper/Dashboard" class="btn btn-modern btn-lg">Go to Dashboard</a>
+                        <a href="/Profile/Index" class="btn btn-modern btn-lg">Profile</a>
+                        <a href="/Home/Docs" class="btn btn-modern btn-lg">API Docs</a>
+                    </div>
+                    <div class="text-start mt-4" style="background: rgba(255,255,255,0.07); border-radius: 1rem; padding: 2rem;">
+                        <h3 class="mb-3" style="font-weight:700;">Getting Started</h3>
+                        <ol>
+                            <li>Create a new scraping job from your dashboard.</li>
+                            <li>Use the visual CSS selector tool for easy targeting.</li>
+                            <li>Monitor results in real time and organize jobs with tags.</li>
+                            <li>Access your data via the RESTful API or download results.</li>
+                        </ol>
+                        <p class="mt-3">Need help? Visit our <a href="/Home/Help" style="color:#6a11cb; font-weight:600;">Help & Examples</a> page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
-</div>
+}
+else
+{
+    <div class="container center-vh">
+        <div class="row justify-content-center">
+            <div class="col-md-8">
+                <div class="card card-glass p-5 text-center">
+                    <h1 class="display-4 mb-3">Welcome to ScrapeWise</h1>
+                    <p class="lead mb-4">
+                        ScrapeWise is an intelligent, modern dashboard for effortless web data extraction.<br />
+                        Create, manage, and monitor your web scraping jobs with real-time updates and a beautiful interface.<br />
+                        No coding required—just enter your target URL and CSS selector!
+                    </p>
+                    <div class="d-flex justify-content-center gap-3 mb-4">
+                        <a href="/Account/Register" class="btn btn-modern btn-lg">Create Account</a>
+                        <a href="/Account/Login" class="btn btn-modern btn-lg">Login</a>
+                    </div>
+                    <div class="text-start mt-4" style="background: rgba(255,255,255,0.07); border-radius: 1rem; padding: 2rem;">
+                        <h3 class="mb-3" style="font-weight:700;">Getting Started</h3>
+                        <ol>
+                            <li>Register for a free account to unlock all features.</li>
+                            <li>Create your first scraping job with our visual CSS selector tool.</li>
+                            <li>Monitor results in real time and organize jobs with tags.</li>
+                            <li>Access your data via the RESTful API or download results.</li>
+                        </ol>
+                        <p class="mt-3">Need help? Visit our <a href="/Home/Help" style="color:#6a11cb; font-weight:600;">Help & Examples</a> page.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+}

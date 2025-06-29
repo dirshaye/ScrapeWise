@@ -2,8 +2,8 @@ using System.Collections.Generic;
 
 public class User
 {
-    public int UserId { get; set; }
-    public string Username { get; set; } = string.Empty;
+    public int Id { get; set; }
+    public string UserName { get; set; } = string.Empty;
     public string Email { get; set; } = string.Empty;
     public string Password { get; set; } = string.Empty; // In production, this should be hashed
     public string Role { get; set; } = "User"; // Admin, User, Guest

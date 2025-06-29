@@ -1,0 +1,46 @@
+@{
+    ViewData["Title"] = "Help & Examples";
+}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    .help-card {
+        background: rgba(30, 30, 60, 0.90);
+        color: #fff;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        border-radius: 2rem;
+        padding: 2.5rem;
+        font-family: 'Inter', sans-serif;
+        margin-top: 3rem;
+    }
+    .help-card h1, .help-card h2, .help-card h3, .help-card p, .help-card code {
+        color: #fff !important;
+    }
+    .example-box {
+        background: rgba(255,255,255,0.07);
+        border-radius: 1rem;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        font-family: 'Fira Mono', monospace;
+    }
+</style>
+<div class="container">
+    <div class="help-card">
+        <h1 class="mb-4">Help & Examples</h1>
+        <p class="lead mb-4">Get started with ScrapeWise and learn how to extract data from any website.</p>
+        <h3>How to Create a Scraping Job</h3>
+        <ol>
+            <li>Go to your <a href="/Scraper/Dashboard" style="color:#6a11cb; font-weight:600;">Dashboard</a> and click <strong>New Job</strong>.</li>
+            <li>Enter the target URL and use the visual CSS selector tool to pick the data you want.</li>
+            <li>Optionally, add tags to organize your jobs.</li>
+            <li>Click <strong>Create</strong> and monitor your results in real time.</li>
+        </ol>
+        <h3 class="mt-4">CSS Selector Example</h3>
+        <div class="example-box">
+            <strong>Selector:</strong> <code>.product-title</code><br/>
+            <strong>What it does:</strong> Selects all elements with the class <code>product-title</code>.<br/>
+            <strong>How to find it:</strong> Right-click on the element in your browser, choose <em>Inspect</em>, and copy the class or id.
+        </div>
+        <h3 class="mt-4">Need More Help?</h3>
+        <p>Check out our <a href="/Home/Docs" style="color:#6a11cb; font-weight:600;">API Documentation</a> or contact support.</p>
+    </div>
+</div> 

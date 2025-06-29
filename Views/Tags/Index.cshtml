@@ -1,0 +1,54 @@
+@model IEnumerable<Tag>
+@{
+    ViewData["Title"] = "Tag Management";
+}
+<div class="container mt-5">
+    <div class="card card-glass p-4">
+        <h2 class="mb-4">Tag Management</h2>
+        @if (TempData["Success"] != null)
+        {
+            <div class="alert alert-success">@TempData["Success"]</div>
+        }
+        @if (TempData["Error"] != null)
+        {
+            <div class="alert alert-danger">@TempData["Error"]</div>
+        }
+        <form asp-action="Create" method="post" class="row g-3 mb-4">
+            @Html.AntiForgeryToken()
+            <div class="col-md-5">
+                <input type="text" name="name" class="form-control" placeholder="Tag name" required />
+            </div>
+            <div class="col-md-3">
+                <input type="color" name="color" class="form-control form-control-color" value="#6a11cb" title="Choose tag color" />
+            </div>
+            <div class="col-md-2">
+                <button type="submit" class="btn btn-modern w-100">Add Tag</button>
+            </div>
+        </form>
+        <table class="table table-dark table-hover rounded">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Color</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var tag in Model)
+                {
+                    <tr>
+                        <td>@tag.Name</td>
+                        <td><span class="badge" style="background:@tag.Color; color:#fff;">@tag.Color</span></td>
+                        <td>
+                            <form asp-action="Delete" method="post" style="display:inline;" onsubmit="return confirm('Delete this tag?');">
+                                @Html.AntiForgeryToken()
+                                <input type="hidden" name="id" value="@tag.TagId" />
+                                <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+                            </form>
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div> 

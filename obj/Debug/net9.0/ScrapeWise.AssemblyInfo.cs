@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ScrapeWise")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+02ef723882b35b26eae640d4e45340d7f4cb7819")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+ebcba9e63a97010ac8827fb0b4a8d842eac2c089")]
 [assembly: System.Reflection.AssemblyProductAttribute("ScrapeWise")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ScrapeWise")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

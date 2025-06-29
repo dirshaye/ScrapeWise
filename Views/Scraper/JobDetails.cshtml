@@ -92,6 +92,45 @@
                         </div>
                     }
                 </div>
+
+                <div class="details-card card-glass">
+                    <div class="details-header">
+                        Tags
+                    </div>
+                    <div class="details-body">
+                        @if (Model.Tags != null && Model.Tags.Any())
+                        {
+                            <div>
+                                @foreach (var tag in Model.Tags)
+                                {
+                                    <span class="badge" style="background:@tag.Color; color:#fff; margin-right:6px;">@tag.Name</span>
+                                }
+                            </div>
+                        }
+                        else
+                        {
+                            <span class="text-muted">No tags assigned.</span>
+                        }
+                        <form asp-action="UpdateJobTags" asp-controller="Scraper" method="post" class="mt-3">
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" name="id" value="@Model.ScrapingJobId" />
+                            <label for="selectedTags" class="form-label">Edit Tags</label>
+                            <select name="selectedTags" id="selectedTags" class="form-control" multiple>
+                                @{
+                                    var selectedTagIds = (List<int>)ViewBag.SelectedTagIds;
+                                    var allTags = (IEnumerable<Tag>)ViewBag.AllTags;
+                                }
+                                @foreach (var tag in allTags)
+                                {
+                                    var selected = selectedTagIds.Contains(tag.TagId) ? "selected=\"selected\"" : "";
+                                    @:<option value="@tag.TagId" @Html.Raw(selected)>@tag.Name</option>
+                                }
+                            </select>
+                            <button type="submit" class="btn btn-modern mt-2">Save Tags</button>
+                        </form>
+                    </div>
+                </div>
+
                 <a class="btn btn-secondary mt-2" asp-action="Dashboard" style="border-radius: 2rem;"><i class="fas fa-arrow-left"></i> Back to Dashboard</a>
             </div>
         </div>
