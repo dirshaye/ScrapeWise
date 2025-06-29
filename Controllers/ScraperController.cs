@@ -15,6 +15,18 @@ public class ScraperController : Controller
         _context = context;
     }
 
+    private async Task<User> GetOrCreateDefaultUserAsync()
+    {
+        var user = await _context.Users.FirstOrDefaultAsync();
+        if (user == null)
+        {
+            user = new User { Email = "default@example.com", Password = "..." };
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+        }
+        return user;
+    }
+
     // GET: /Scraper/NewJob
     public IActionResult NewJob()
     {
@@ -33,6 +45,8 @@ public class ScraperController : Controller
 
         try
         {
+            var defaultUser = await GetOrCreateDefaultUserAsync();
+
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(targetUrl);
 
@@ -47,7 +61,7 @@ public class ScraperController : Controller
                 TargetUrl = targetUrl,
                 CssSelector = cssSelector,
                 CreatedAt = DateTime.Now,
-                // UserId = ... // Set this if/when you have authentication
+                UserId = defaultUser.UserId
             };
 
             if (nodes != null && nodes.Count > 0)
@@ -76,7 +90,9 @@ public class ScraperController : Controller
         }
         catch (Exception ex)
         {
-            ViewBag.Message = "Error: " + ex.Message;
+            // Log the detailed exception
+            Console.WriteLine(ex.ToString());
+            ViewBag.Message = "Error: An error occurred while saving the entity changes. See the inner exception for details.";
             return View();
         }
     }
