@@ -1,0 +1,44 @@
+@{
+    ViewData["Title"] = "API Documentation";
+}
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet">
+<style>
+    .docs-card {
+        background: rgba(30, 30, 60, 0.90);
+        color: #fff;
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+        border-radius: 2rem;
+        padding: 2.5rem;
+        font-family: 'Inter', sans-serif;
+        margin-top: 3rem;
+    }
+    .docs-card h1, .docs-card h2, .docs-card h3, .docs-card p, .docs-card code {
+        color: #fff !important;
+    }
+    .api-endpoint {
+        background: rgba(255,255,255,0.07);
+        border-radius: 1rem;
+        padding: 1rem 1.5rem;
+        margin-bottom: 1.5rem;
+        font-family: 'Fira Mono', monospace;
+    }
+</style>
+<div class="container">
+    <div class="docs-card">
+        <h1 class="mb-4">ScrapeWise API Documentation</h1>
+        <p class="lead mb-4">Access your scraping jobs and results programmatically using our RESTful API.</p>
+        <h3>Base URL</h3>
+        <div class="api-endpoint">https://yourdomain.com/api/</div>
+        <h3>Authentication</h3>
+        <p>Use your API key or JWT token in the <code>Authorization</code> header.</p>
+        <h3>Endpoints</h3>
+        <div class="api-endpoint"><strong>GET</strong> /api/jobs<br/><span class="text-muted">List all your scraping jobs</span></div>
+        <div class="api-endpoint"><strong>GET</strong> /api/jobs/{id}<br/><span class="text-muted">Get details of a specific job</span></div>
+        <div class="api-endpoint"><strong>POST</strong> /api/jobs<br/><span class="text-muted">Create a new scraping job</span></div>
+        <div class="api-endpoint"><strong>GET</strong> /api/results/{jobId}<br/><span class="text-muted">Get results for a job</span></div>
+        <div class="api-endpoint"><strong>GET</strong> /api/tags<br/><span class="text-muted">List all tags</span></div>
+        <h3 class="mt-4">Example: Get All Jobs</h3>
+        <pre class="api-endpoint"><code>curl -H "Authorization: Bearer &lt;your_token&gt;" https://yourdomain.com/api/jobs</code></pre>
+        <p class="mt-4">For more details, see the <a href="/Home/Help" style="color:#6a11cb; font-weight:600;">Help & Examples</a> page.</p>
+    </div>
+</div> 

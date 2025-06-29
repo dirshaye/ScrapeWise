@@ -1,0 +1,47 @@
+@{
+    ViewData["Title"] = "Register";
+}
+<style>
+    .card-glass label.form-label {
+        color: #fff !important;
+        font-weight: 600;
+        letter-spacing: 0.5px;
+    }
+    .card-glass input.form-control {
+        background: rgba(255,255,255,0.15);
+        color: #fff;
+        border: 1px solid rgba(255,255,255,0.2);
+    }
+    .card-glass input.form-control::placeholder {
+        color: #e0e0e0;
+        opacity: 1;
+    }
+</style>
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-glass p-4">
+                <h2 class="mb-4 text-center">Create Account</h2>
+                <form asp-action="Register" method="post">
+                    <div class="mb-3">
+                        <label for="username" class="form-label">Username</label>
+                        <input type="text" class="form-control" id="username" name="username" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required />
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required />
+                    </div>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger">@ViewData.ModelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage</div>
+                    }
+                    <button type="submit" class="btn btn-modern w-100">Create Account</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 

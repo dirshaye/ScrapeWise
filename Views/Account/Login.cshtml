@@ -1,0 +1,27 @@
+@{
+    ViewData["Title"] = "Login";
+}
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-glass p-4" style="background: linear-gradient(135deg, rgba(52, 58, 64, 0.85) 0%, rgba(106, 17, 203, 0.85) 100%); color: #fff; box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37); border-radius: 1.5rem; border: 1px solid rgba(255,255,255,0.18);">
+                <h2 class="mb-4 text-center" style="color: #fff; text-shadow: 0 2px 8px rgba(106,17,203,0.2); letter-spacing: 1px;">Login</h2>
+                <form asp-action="Login" method="post">
+                    <div class="mb-3">
+                        <label for="email" class="form-label" style="color: #fff;">Email</label>
+                        <input type="email" class="form-control" id="email" name="email" required style="background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2);" />
+                    </div>
+                    <div class="mb-3">
+                        <label for="password" class="form-label" style="color: #fff;">Password</label>
+                        <input type="password" class="form-control" id="password" name="password" required style="background: rgba(255,255,255,0.08); color: #fff; border: 1px solid rgba(255,255,255,0.2);" />
+                    </div>
+                    @if (!ViewData.ModelState.IsValid)
+                    {
+                        <div class="alert alert-danger" style="background: rgba(255,0,0,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);">@ViewData.ModelState[string.Empty]?.Errors.FirstOrDefault()?.ErrorMessage</div>
+                    }
+                    <button type="submit" class="btn btn-modern w-100" style="background: linear-gradient(90deg, #6a11cb 0%, #2575fc 100%); color: #fff; border: none; border-radius: 0.5rem; font-weight: 600; letter-spacing: 1px; box-shadow: 0 2px 8px rgba(106,17,203,0.2);">Login</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div> 

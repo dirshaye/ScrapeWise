@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_.Controllers;
 
@@ -27,5 +28,21 @@ public class HomeController : Controller
     public IActionResult Error()
     {
         return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+    }
+
+    [Authorize]
+    public IActionResult Dashboard()
+    {
+        return View();
+    }
+
+    public IActionResult Docs()
+    {
+        return View();
+    }
+
+    public IActionResult Help()
+    {
+        return View();
     }
 }
