@@ -13,7 +13,7 @@ builder.Services.AddControllers();
 builder.Services.AddSignalR();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddAuthentication("Cookies")
     .AddCookie("Cookies", options =>
@@ -65,6 +65,7 @@ using (var scope = app.Services.CreateScope())
             Password = "admin123",
             Role = "Admin",
             IsActive = true,
+            CreatedAt = DateTime.UtcNow,
             Profile = new Profile { DisplayName = "Admin", AvatarUrl = "https://www.gravatar.com/avatar/?d=mp" }
         };
         db.Users.Add(admin);
@@ -78,6 +79,7 @@ using (var scope = app.Services.CreateScope())
             Password = "user123",
             Role = "User",
             IsActive = true,
+            CreatedAt = DateTime.UtcNow,
             Profile = new Profile { DisplayName = "User", AvatarUrl = "https://www.gravatar.com/avatar/?d=mp" }
         };
         db.Users.Add(user);
