@@ -8,7 +8,7 @@ public class User
     public string Password { get; set; } = string.Empty; // In production, this should be hashed
     public string Role { get; set; } = "User"; // Admin, User, Guest
     public bool IsActive { get; set; } = true;
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     // Navigation properties
     public Profile? Profile { get; set; }

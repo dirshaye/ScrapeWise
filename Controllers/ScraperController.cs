@@ -49,7 +49,10 @@ public class ScraperController : Controller
 
         try
         {
-            var defaultUser = await GetOrCreateDefaultUserAsync();
+            // Get the currently logged-in user
+            var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
+            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
+            if (currentUser == null) return Unauthorized();
 
             var web = new HtmlWeb();
             var doc = await web.LoadFromWebAsync(targetUrl);
@@ -64,8 +67,8 @@ public class ScraperController : Controller
             {
                 TargetUrl = targetUrl,
                 CssSelector = cssSelector,
-                CreatedAt = DateTime.Now,
-                UserId = defaultUser.Id
+                CreatedAt = DateTime.UtcNow,
+                UserId = currentUser.Id // Assign to the logged-in user
             };
 
             // Assign tags
@@ -85,7 +88,7 @@ public class ScraperController : Controller
                     job.ScrapingResults.Add(new ScrapingResult
                     {
                         ExtractedText = node.InnerText.Trim(),
-                        ScrapedAt = DateTime.Now
+                        ScrapedAt = DateTime.UtcNow
                     });
                 }
             }
