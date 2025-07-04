@@ -120,7 +120,6 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ## 📸 Screenshots
 
-*Replace the placeholders below with screenshots of your application.*
 
 | Dashboard | New Scrape |
 | :---: | :---: |
