@@ -169,11 +169,11 @@ public class ScraperController : Controller
         List<ScrapingJob> jobs;
         if (user.Role == "Admin")
         {
-            jobs = await _context.ScrapingJobs.Include(j => j.ScrapingResults).OrderByDescending(j => j.ScrapingJobId).ToListAsync();
+            jobs = await _context.ScrapingJobs.Include(j => j.ScrapingResults).Include(j => j.User).OrderByDescending(j => j.ScrapingJobId).ToListAsync();
         }
         else
         {
-            jobs = await _context.ScrapingJobs.Include(j => j.ScrapingResults).Where(j => j.UserId == user.Id).OrderByDescending(j => j.ScrapingJobId).ToListAsync();
+            jobs = await _context.ScrapingJobs.Include(j => j.ScrapingResults).Include(j => j.User).Where(j => j.UserId == user.Id).OrderByDescending(j => j.ScrapingJobId).ToListAsync();
         }
         return View(jobs);
     }
@@ -196,5 +196,23 @@ public class ScraperController : Controller
 
         TempData["SuccessMessage"] = "Job deleted successfully.";
         return RedirectToAction(nameof(Dashboard));
+    }
+
+    // GET: /Scraper/ExportJobCsv/{id}
+    [HttpGet]
+    public async Task<IActionResult> ExportJobCsv(int id)
+    {
+        var job = await _context.ScrapingJobs.Include(j => j.ScrapingResults).FirstOrDefaultAsync(j => j.ScrapingJobId == id);
+        if (job == null) return NotFound();
+
+        var csv = new System.Text.StringBuilder();
+        csv.AppendLine("ExtractedText,ScrapedAt");
+        foreach (var result in job.ScrapingResults)
+        {
+            var text = result.ExtractedText.Replace("\"", "\"\"").Replace("\n", " ").Replace("\r", " ");
+            csv.AppendLine($"\"{text}\",{result.ScrapedAt:O}");
+        }
+        var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
+        return File(bytes, "text/csv", $"scraping_job_{id}_results.csv");
     }
 }

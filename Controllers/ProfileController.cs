@@ -41,7 +41,7 @@ public class ProfileController : Controller
         user.Profile.AvatarUrl = profile.AvatarUrl;
         user.Profile.UserAgent = string.IsNullOrWhiteSpace(profile.UserAgent) ? "Mozilla/5.0 (compatible; ScrapeWiseBot/1.0)" : profile.UserAgent;
         user.Profile.DelayBetweenRequests = profile.DelayBetweenRequests;
-
+        user.UserName = profile.DisplayName;
         await _context.SaveChangesAsync();
         TempData["SuccessMessage"] = "Profile updated successfully!";
         return View(user.Profile);
