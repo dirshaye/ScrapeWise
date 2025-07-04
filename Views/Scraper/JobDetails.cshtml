@@ -68,6 +68,14 @@
                         <p><i class="fas fa-link"></i><strong>URL:</strong> <a href="@Model.TargetUrl" target="_blank">@Model.TargetUrl</a></p>
                         <p><i class="fas fa-code"></i><strong>CSS Selector:</strong> <code>@Model.CssSelector</code></p>
                         <p><i class="fas fa-clock"></i><strong>Created At:</strong> @Model.CreatedAt.ToString("f")</p>
+                        @if (User.IsInRole("Admin") && Model.User != null)
+                        {
+                            <p><i class="fas fa-user"></i><strong>User:</strong> @Model.User.UserName <small>(@Model.User.Email)</small></p>
+                        }
+                        <form asp-action="ExportJobCsv" asp-controller="Scraper" method="get" style="display:inline;">
+                            <input type="hidden" name="id" value="@Model.ScrapingJobId" />
+                            <button type="submit" class="btn btn-success btn-sm mt-2"><i class="fas fa-file-csv"></i> Export as CSV</button>
+                        </form>
                     </div>
                 </div>
 

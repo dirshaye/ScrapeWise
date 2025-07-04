@@ -85,6 +85,10 @@
                         <th><span title="Job ID">#️⃣</span></th>
                         <th><span title="Target URL">🔗</span> Target URL</th>
                         <th><span title="Results">📄</span> Results</th>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <th><span title="User">👤</span> User</th>
+                        }
                         <th><span title="Actions">⚡</span> Actions</th>
                     </tr>
                 </thead>
@@ -95,6 +99,10 @@
                         <td>@job.ScrapingJobId</td>
                         <td><a href="@job.TargetUrl" target="_blank">@job.TargetUrl</a></td>
                         <td>@(job.ScrapingResults?.Count ?? 0)</td>
+                        @if (User.IsInRole("Admin"))
+                        {
+                            <td>@(job.User?.UserName ?? "Unknown")<br /><small>@job.User?.Email</small></td>
+                        }
                         <td>
                             <a class="btn btn-sm btn-primary" asp-action="JobDetails" asp-route-id="@job.ScrapingJobId">View Details</a>
                             <button type="button" class="btn btn-sm btn-danger ms-1" data-bs-toggle="modal" data-bs-target="#deleteModal-@job.ScrapingJobId">
