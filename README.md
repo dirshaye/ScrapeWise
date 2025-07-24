@@ -39,7 +39,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 ## 🛠️ Technology Stack
 
 - **Backend:** C#, ASP.NET Core MVC
-- **Database:** Entity Framework Core, SQL Server
+- **Database:** Entity Framework Core, Postgres
 - **Frontend:** HTML, CSS, JavaScript, Bootstrap 5
 - **Scraping Library:** HtmlAgilityPack
 - **UI Framework:** Custom Aurora Glass theme with glassmorphism effects
@@ -119,8 +119,6 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 ---
 
 ## 📸 Screenshots
-
-
 
 | Dashboard | New Scrape |
 | :---: | :---: |
