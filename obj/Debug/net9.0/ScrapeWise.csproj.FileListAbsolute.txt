@@ -198,3 +198,8 @@
 /home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/appsettings.Production.json
 /home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/Npgsql.dll
 /home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/Npgsql.EntityFrameworkCore.PostgreSQL.dll
+/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/Microsoft.OpenApi.dll
+/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/Swashbuckle.AspNetCore.Swagger.dll
+/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerGen.dll
+/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/bin/Debug/net9.0/Swashbuckle.AspNetCore.SwaggerUI.dll
+/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/obj/Debug/net9.0/ScrapeWise.MvcApplicationPartsAssemblyInfo.cs
