@@ -1,10 +1,13 @@
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-public class AppDbContext : DbContext
+/// <summary>
+/// The application's database context, including Identity and domain models.
+/// </summary>
+public class AppDbContext : IdentityDbContext<MyUser>
 {
     public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) {}
 
-    public DbSet<User> Users { get; set; }
     public DbSet<Profile> Profiles { get; set; }
     public DbSet<ScrapingJob> ScrapingJobs { get; set; }
     public DbSet<ScrapingResult> ScrapingResults { get; set; }
@@ -12,25 +15,26 @@ public class AppDbContext : DbContext
 
     protected override void OnModelCreating(ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<User>()
-            .HasOne(u => u.Profile)
-            .WithOne(p => p.User)
-            .HasForeignKey<Profile>(p => p.UserId);
-
-        modelBuilder.Entity<User>()
-            .HasMany(u => u.ScrapingJobs)
-            .WithOne(j => j.User)
+        base.OnModelCreating(modelBuilder);
+        // ScrapingJob: PK is ScrapingJobId
+        modelBuilder.Entity<ScrapingJob>()
+            .HasKey(j => j.ScrapingJobId);
+        modelBuilder.Entity<ScrapingJob>()
+            .HasOne(j => j.User)
+            .WithMany(u => u.ScrapingJobs)
             .HasForeignKey(j => j.UserId);
-
         modelBuilder.Entity<ScrapingJob>()
             .HasMany(j => j.ScrapingResults)
             .WithOne(r => r.ScrapingJob)
             .HasForeignKey(r => r.ScrapingJobId);
-
-        // Many-to-Many relationship between ScrapingJob and Tag
         modelBuilder.Entity<ScrapingJob>()
             .HasMany(j => j.Tags)
             .WithMany(t => t.ScrapingJobs)
             .UsingEntity(j => j.ToTable("ScrapingJobTags"));
+
+        modelBuilder.Entity<MyUser>()
+            .HasOne(u => u.Profile)
+            .WithOne(p => p.User)
+            .HasForeignKey<Profile>(p => p.UserId);
     }
 }

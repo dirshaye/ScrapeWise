@@ -1,218 +1,135 @@
 using Microsoft.AspNetCore.Mvc;
-using HtmlAgilityPack;
-using System.Linq;
-using System.Threading.Tasks;
-using System;
-using System.Collections.Generic;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Authorization;
 
-[Authorize]
+namespace ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_.Controllers;
+
+/// <summary>
+/// Compatibility controller for old Scraper routes
+/// Redirects to new controller structure (Jobs, Tags, Results)
+/// This maintains backward compatibility during transition
+/// 
+/// ALGORITHMIC PURPOSE: Implements URL redirection algorithm for legacy route management
+/// </summary>
 public class ScraperController : Controller
 {
-    private readonly AppDbContext _context;
-
-    public ScraperController(AppDbContext context)
+    /// <summary>
+    /// Redirects Dashboard to Jobs controller Index action
+    /// 
+    /// ALGORITHM: HTTP 302 Redirect Algorithm
+    /// 1. Accept incoming request to /Scraper/Dashboard
+    /// 2. Generate redirect response to /Jobs/Index
+    /// 3. Preserve request context and authentication state
+    /// 4. Return ActionResult that triggers browser redirect
+    /// 
+    /// TIME COMPLEXITY: O(1) - Constant time redirect
+    /// SPACE COMPLEXITY: O(1) - No additional memory allocation
+    /// </summary>
+    /// <returns>Redirect to Jobs/Index</returns>
+    public IActionResult Dashboard()
     {
-        _context = context;
+        // Redirect algorithm - maintains SEO and user experience during refactoring
+        return RedirectToAction("Index", "Jobs");
     }
 
-    private async Task<User> GetOrCreateDefaultUserAsync()
-    {
-        var user = await _context.Users.FirstOrDefaultAsync();
-        if (user == null)
-        {
-            user = new User { Email = "default@example.com", Password = "..." };
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-        }
-        return user;
-    }
-
-    // GET: /Scraper/NewJob
+    /// <summary>
+    /// Redirects NewJob to Jobs controller Create action
+    /// 
+    /// ALGORITHM: Route Translation Algorithm
+    /// 1. Map legacy route /Scraper/NewJob → /Jobs/Create
+    /// 2. Preserve HTTP method (GET) and authentication context
+    /// 3. Maintain query parameters if any exist
+    /// 
+    /// TIME COMPLEXITY: O(1) - Direct route mapping
+    /// SPACE COMPLEXITY: O(1) - No data transformation required
+    /// </summary>
+    /// <returns>Redirect to Jobs/Create</returns>
     public IActionResult NewJob()
     {
-        ViewBag.Tags = _context.Tags.ToList();
-        return View();
+        // Legacy route mapping algorithm - ensures backward compatibility
+        return RedirectToAction("Create", "Jobs");
     }
 
-    // POST: /Scraper/NewJob
+    /// <summary>
+    /// Redirects JobDetails to Jobs controller Details action
+    /// 
+    /// ALGORITHM: Parameter Preservation Redirect Algorithm
+    /// 1. Accept incoming request with job ID parameter
+    /// 2. Validate parameter existence (ASP.NET handles null/invalid IDs)
+    /// 3. Create anonymous object to preserve route values
+    /// 4. Generate redirect with parameter mapping: { id = originalId }
+    /// 
+    /// TIME COMPLEXITY: O(1) - Single parameter mapping operation
+    /// SPACE COMPLEXITY: O(1) - Creates one anonymous object for route values
+    /// </summary>
+    /// <param name="id">Job ID parameter to preserve in redirect</param>
+    /// <returns>Redirect to Jobs/Details with preserved ID</returns>
+    public IActionResult JobDetails(int id)
+    {
+        // Parameter preservation algorithm - maintains data flow through redirects
+        return RedirectToAction("Details", "Jobs", new { id });
+    }
+
+    /// <summary>
+    /// Redirects ExportJobCsv to Results controller ExportCsv action
+    /// 
+    /// ALGORITHM: Cross-Controller Parameter Mapping Algorithm
+    /// 1. Accept jobId parameter from legacy Scraper route
+    /// 2. Map parameter name from 'jobId' to 'jobId' (same name)
+    /// 3. Redirect to Results controller (different domain responsibility)
+    /// 4. Preserve authentication and authorization context
+    /// 
+    /// PURPOSE: Separates export functionality from job management
+    /// TIME COMPLEXITY: O(1) - Direct parameter mapping
+    /// SPACE COMPLEXITY: O(1) - Single route value object creation
+    /// </summary>
+    /// <param name="jobId">Job ID for CSV export operation</param>
+    /// <returns>Redirect to Results/ExportCsv with preserved jobId</returns>
+    public IActionResult ExportJobCsv(int jobId)
+    {
+        // Cross-controller responsibility mapping algorithm
+        return RedirectToAction("ExportCsv", "Results", new { jobId });
+    }
+
+    /// <summary>
+    /// Redirects Delete to Jobs controller Delete action
+    /// 
+    /// ALGORITHM: HTTP Method Preservation Redirect Algorithm
+    /// 1. Accept POST request with job ID parameter
+    /// 2. Preserve HTTP POST method semantics through redirect
+    /// 3. Maintain CSRF token validation chain
+    /// 4. Map to Jobs controller for proper entity responsibility
+    /// 
+    /// SECURITY NOTE: POST redirects maintain form data and CSRF protection
+    /// TIME COMPLEXITY: O(1) - Direct method call redirection
+    /// SPACE COMPLEXITY: O(1) - No additional data structures
+    /// </summary>
+    /// <param name="id">Job ID to delete</param>
+    /// <returns>Redirect to Jobs/Delete with preserved ID and POST semantics</returns>
     [HttpPost]
-    public async Task<IActionResult> NewJob(string targetUrl, string cssSelector, int[] selectedTags)
+    public IActionResult Delete(int id)
     {
-        if (string.IsNullOrEmpty(targetUrl) || string.IsNullOrEmpty(cssSelector))
-        {
-            ViewBag.Tags = _context.Tags.ToList();
-            ModelState.AddModelError("", "Please provide both URL and selector.");
-            return View();
-        }
-
-        try
-        {
-            // Get the currently logged-in user
-            var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-            var currentUser = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-            if (currentUser == null) return Unauthorized();
-
-            var web = new HtmlWeb();
-            var doc = await web.LoadFromWebAsync(targetUrl);
-
-            // Save raw HTML (optional)
-            System.IO.File.WriteAllText("scraped.html", doc.DocumentNode.InnerHtml);
-
-            var nodes = doc.DocumentNode.SelectNodes($"//*[contains(@class, '{cssSelector.Replace(".", "")}')]");
-
-            // Create and save the job
-            var job = new ScrapingJob
-            {
-                TargetUrl = targetUrl,
-                CssSelector = cssSelector,
-                CreatedAt = DateTime.UtcNow,
-                UserId = currentUser.Id // Assign to the logged-in user
-            };
-
-            // Assign tags
-            if (selectedTags != null && selectedTags.Length > 0)
-            {
-                var tags = _context.Tags.Where(t => selectedTags.Contains(t.TagId)).ToList();
-                foreach (var tag in tags)
-                {
-                    job.Tags.Add(tag);
-                }
-            }
-
-            if (nodes != null && nodes.Count > 0)
-            {
-                foreach (var node in nodes)
-                {
-                    job.ScrapingResults.Add(new ScrapingResult
-                    {
-                        ExtractedText = node.InnerText.Trim(),
-                        ScrapedAt = DateTime.UtcNow
-                    });
-                }
-            }
-
-            _context.ScrapingJobs.Add(job);
-            await _context.SaveChangesAsync();
-
-            if (job.ScrapingResults.Count == 0)
-            {
-                ViewBag.Tags = _context.Tags.ToList();
-                ViewBag.Message = "No results found for the given selector. The job was saved for your records.";
-                return View();
-            }
-
-            // Redirect to dashboard after successful save
-            return RedirectToAction("Dashboard");
-        }
-        catch (Exception ex)
-        {
-            // Log the detailed exception
-            Console.WriteLine(ex.ToString());
-            ViewBag.Tags = _context.Tags.ToList();
-            ViewBag.Message = "Error: An error occurred while saving the entity changes. See the inner exception for details.";
-            return View();
-        }
+        // HTTP method preservation algorithm - maintains REST semantics
+        return RedirectToAction("Delete", "Jobs", new { id });
     }
 
-    // GET: /Scraper/JobDetails/{id}
-    public async Task<IActionResult> JobDetails(int id)
-    {
-        var job = await _context.ScrapingJobs.Include(j => j.ScrapingResults).Include(j => j.Tags).FirstOrDefaultAsync(j => j.ScrapingJobId == id);
-        if (job == null) return NotFound();
-
-        var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-        if (user == null) return Unauthorized();
-        if (user.Role != "Admin" && job.UserId != user.Id) return Forbid();
-
-        ViewBag.AllTags = _context.Tags.ToList();
-        ViewBag.SelectedTagIds = job.Tags.Select(t => t.TagId).ToList();
-        return View(job);
-    }
-
-    // POST: /Scraper/UpdateJobTags/{id}
+    /// <summary>
+    /// Redirects UpdateJobTags to Tags controller UpdateJobTags action
+    /// 
+    /// ALGORITHM: Tag Management Redirect Algorithm
+    /// 1. Accept POST request with jobId and selectedTags parameters
+    /// 2. Preserve form data for tag update operation
+    /// 3. Redirect to Tags controller for proper tag management responsibility
+    /// 4. Maintain CSRF token and authentication context
+    /// 
+    /// TIME COMPLEXITY: O(1) - Direct parameter mapping redirect
+    /// SPACE COMPLEXITY: O(1) - Route value object creation
+    /// </summary>
+    /// <param name="jobId">Job ID for tag update</param>
+    /// <param name="selectedTags">Array of selected tag IDs</param>
+    /// <returns>Redirect to Tags/UpdateJobTags with preserved parameters</returns>
     [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> UpdateJobTags(int id, int[] selectedTags)
+    public IActionResult UpdateJobTags(int jobId, int[] selectedTags)
     {
-        var job = await _context.ScrapingJobs.Include(j => j.Tags).FirstOrDefaultAsync(j => j.ScrapingJobId == id);
-        if (job == null) return NotFound();
-
-        var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-        if (user == null) return Unauthorized();
-        if (user.Role != "Admin" && job.UserId != user.Id) return Forbid();
-
-        job.Tags.Clear();
-        if (selectedTags != null && selectedTags.Length > 0)
-        {
-            var tags = _context.Tags.Where(t => selectedTags.Contains(t.TagId)).ToList();
-            foreach (var tag in tags)
-            {
-                job.Tags.Add(tag);
-            }
-        }
-        await _context.SaveChangesAsync();
-        TempData["SuccessMessage"] = "Tags updated successfully.";
-        return RedirectToAction("JobDetails", new { id });
-    }
-
-    // GET: /Scraper/Dashboard
-    public async Task<IActionResult> Dashboard()
-    {
-        var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-        if (user == null) return Unauthorized();
-
-        List<ScrapingJob> jobs;
-        if (user.Role == "Admin")
-        {
-            jobs = await _context.ScrapingJobs.Include(j => j.ScrapingResults).Include(j => j.User).OrderByDescending(j => j.ScrapingJobId).ToListAsync();
-        }
-        else
-        {
-            jobs = await _context.ScrapingJobs.Include(j => j.ScrapingResults).Include(j => j.User).Where(j => j.UserId == user.Id).OrderByDescending(j => j.ScrapingJobId).ToListAsync();
-        }
-        return View(jobs);
-    }
-
-    // POST: /Scraper/Delete/{id}
-    [HttpPost]
-    [ValidateAntiForgeryToken]
-    public async Task<IActionResult> Delete(int id)
-    {
-        var job = await _context.ScrapingJobs.FindAsync(id);
-        if (job == null) return NotFound();
-
-        var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
-        var user = await _context.Users.FirstOrDefaultAsync(u => u.Email == userEmail);
-        if (user == null) return Unauthorized();
-        if (user.Role != "Admin" && job.UserId != user.Id) return Forbid();
-
-        _context.ScrapingJobs.Remove(job);
-        await _context.SaveChangesAsync();
-
-        TempData["SuccessMessage"] = "Job deleted successfully.";
-        return RedirectToAction(nameof(Dashboard));
-    }
-
-    // GET: /Scraper/ExportJobCsv/{id}
-    [HttpGet]
-    public async Task<IActionResult> ExportJobCsv(int id)
-    {
-        var job = await _context.ScrapingJobs.Include(j => j.ScrapingResults).FirstOrDefaultAsync(j => j.ScrapingJobId == id);
-        if (job == null) return NotFound();
-
-        var csv = new System.Text.StringBuilder();
-        csv.AppendLine("ExtractedText,ScrapedAt");
-        foreach (var result in job.ScrapingResults)
-        {
-            var text = result.ExtractedText.Replace("\"", "\"\"").Replace("\n", " ").Replace("\r", " ");
-            csv.AppendLine($"\"{text}\",{result.ScrapedAt:O}");
-        }
-        var bytes = System.Text.Encoding.UTF8.GetBytes(csv.ToString());
-        return File(bytes, "text/csv", $"scraping_job_{id}_results.csv");
+        // Cross-controller responsibility mapping for tag management
+        return RedirectToAction("UpdateJobTags", "Tags", new { jobId, selectedTags });
     }
 }

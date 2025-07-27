@@ -1,10 +1,12 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
+builder.Services.AddRazorPages();
 
 // Add API controllers
 builder.Services.AddControllers();
@@ -19,12 +21,25 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<AppDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddAuthentication("Cookies")
-    .AddCookie("Cookies", options =>
-    {
-        options.LoginPath = "/Account/Login";
-        options.LogoutPath = "/Account/Logout";
-    });
+builder.Services.AddIdentity<MyUser, IdentityRole>(options => {
+        options.SignIn.RequireConfirmedAccount = false; // Allow login without email confirmation
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 6;
+        options.Password.RequireNonAlphanumeric = false;
+        options.Password.RequireUppercase = false;
+        options.Password.RequireLowercase = false;
+        options.User.RequireUniqueEmail = true; // Ensure unique emails
+    })
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders()
+    .AddDefaultUI();
+
+// Configure Identity to use email as username
+builder.Services.Configure<IdentityOptions>(options =>
+{
+    options.SignIn.RequireConfirmedAccount = false;
+});
+
 builder.Services.AddSession();
 builder.Services.AddHttpContextAccessor();
 
@@ -64,39 +79,12 @@ app.MapControllerRoute(
     name: "default",
     pattern: "{controller=Home}/{action=Index}/{id?}");
 
-// Seed users on startup
+app.MapRazorPages();
+
+// Seed database using extension method to keep Program.cs clean
 using (var scope = app.Services.CreateScope())
 {
-    var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    if (!db.Users.Any(u => u.Email == "admin@scrapewise.com"))
-    {
-        var admin = new User
-        {
-            UserName = "admin",
-            Email = "admin@scrapewise.com",
-            Password = "admin123",
-            Role = "Admin",
-            IsActive = true,
-            CreatedAt = DateTime.UtcNow,
-            Profile = new Profile { DisplayName = "Admin", AvatarUrl = "https://www.gravatar.com/avatar/?d=mp" }
-        };
-        db.Users.Add(admin);
-    }
-    if (!db.Users.Any(u => u.Email == "user@scrapewise.com"))
-    {
-        var user = new User
-        {
-            UserName = "user",
-            Email = "user@scrapewise.com",
-            Password = "user123",
-            Role = "User",
-            IsActive = true,
-            CreatedAt = DateTime.UtcNow,
-            Profile = new Profile { DisplayName = "User", AvatarUrl = "https://www.gravatar.com/avatar/?d=mp" }
-        };
-        db.Users.Add(user);
-    }
-    db.SaveChanges();
+    await scope.ServiceProvider.SeedDatabaseAsync();
 }
 
 app.Run();

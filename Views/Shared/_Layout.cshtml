@@ -98,7 +98,7 @@
                         {
                             var isAdmin = User.IsInRole("Admin");
                             <li class="nav-item">
-                                <a class="nav-link" href="/Scraper/Dashboard">Dashboard</a>
+                                <a class="nav-link" href="/Jobs">Dashboard</a>
                             </li>
                             @if (isAdmin)
                             {
@@ -127,10 +127,10 @@
                                 <a class="nav-link" href="/Home/Docs">API Docs</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Account/Login">Login</a>
+                                <a class="nav-link" href="/Identity/Account/Login">Login</a>
                             </li>
                             <li class="nav-item">
-                                <a class="nav-link" href="/Account/Register">Create Account</a>
+                                <a class="nav-link" href="/Identity/Account/Register">Create Account</a>
                             </li>
                         }
                     </ul>
@@ -150,6 +150,10 @@
     </footer>
     <script src="~/lib/jquery/dist/jquery.min.js"></script>
     <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <!-- SignalR Client Library -->
+    <script src="https://unpkg.com/@@microsoft/signalr@@latest/dist/browser/signalr.min.js"></script>
+    <!-- ScrapeWise SignalR Connection -->
+    <script src="~/js/signalr-connection.js" asp-append-version="true"></script>
     <script src="~/js/site.js" asp-append-version="true"></script>
     @await RenderSectionAsync("Scripts", required: false)
 </body>

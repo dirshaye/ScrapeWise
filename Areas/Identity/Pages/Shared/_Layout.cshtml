@@ -1,0 +1,267 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>@ViewData["Title"] - ScrapeWise</title>
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="~/css/site.css" asp-append-version="true" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        :root {
+            --primary-glow: rgba(138, 43, 226, 0.5);
+            --secondary-glow: rgba(37, 117, 252, 0.5);
+        }
+        
+        body {
+            background-color: #000;
+            background-image: 
+                radial-gradient(at 20% 20%, hsl(210, 100%, 10%) 0, transparent 50%),
+                radial-gradient(at 80% 20%, hsl(280, 100%, 10%) 0, transparent 50%),
+                radial-gradient(at 20% 80%, hsl(280, 100%, 15%) 0, transparent 50%),
+                radial-gradient(at 80% 80%, hsl(210, 100%, 15%) 0, transparent 50%);
+            color: #f0f0f0;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        
+        .identity-container {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem 1rem;
+        }
+        
+        .identity-card {
+            background: rgba(255, 255, 255, 0.05);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 2rem;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+            padding: 3rem;
+            width: 100%;
+            max-width: 450px;
+            position: relative;
+            overflow: hidden;
+        }
+        
+        .identity-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary-glow), var(--secondary-glow));
+            filter: blur(1px);
+        }
+        
+        .brand-logo {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+        
+        .brand-logo svg {
+            margin-bottom: 1rem;
+        }
+        
+        .brand-title {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: 1px;
+        }
+        
+        .form-control {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 1rem;
+            color: #fff;
+            padding: 1rem 1.25rem;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+        }
+        
+        .form-control:focus {
+            background: rgba(255, 255, 255, 0.15);
+            border-color: rgba(138, 43, 226, 0.5);
+            box-shadow: 0 0 0 0.2rem rgba(138, 43, 226, 0.25);
+            color: #fff;
+        }
+        
+        .form-control::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .form-label {
+            color: rgba(255, 255, 255, 0.9);
+            font-weight: 500;
+            margin-bottom: 0.5rem;
+        }
+        
+        .btn-primary {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            border: none;
+            border-radius: 1rem;
+            padding: 1rem 2rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s ease;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+        
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(138, 43, 226, 0.4);
+        }
+        
+        .btn-link {
+            color: rgba(138, 43, 226, 0.9);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+        }
+        
+        .btn-link:hover {
+            color: #2575fc;
+            text-decoration: underline;
+        }
+        
+        .text-danger {
+            color: #ff6b6b !important;
+            font-size: 0.875rem;
+        }
+        
+        .validation-summary-errors ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+        
+        .validation-summary-errors li {
+            background: rgba(255, 107, 107, 0.1);
+            border-left: 3px solid #ff6b6b;
+            padding: 0.5rem 1rem;
+            margin-bottom: 0.5rem;
+            border-radius: 0.5rem;
+        }
+        
+        .form-check-input:checked {
+            background-color: #6a11cb;
+            border-color: #6a11cb;
+        }
+        
+        .form-check-label {
+            color: rgba(255, 255, 255, 0.8);
+        }
+        
+        .identity-footer {
+            text-align: center;
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+        }
+        
+        .password-toggle {
+            position: absolute;
+            right: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: none;
+            border: none;
+            color: rgba(255, 255, 255, 0.6);
+            cursor: pointer;
+            z-index: 10;
+        }
+        
+        .password-toggle:hover {
+            color: rgba(255, 255, 255, 0.9);
+        }
+        
+        hr {
+            border-color: rgba(255, 255, 255, 0.2);
+            margin: 1.5rem 0;
+        }
+        
+        .external-login-section {
+            margin-top: 2rem;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+        }
+        
+        .external-login-section h3 {
+            color: rgba(255, 255, 255, 0.9);
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="identity-container">
+        <div class="identity-card">
+            <div class="brand-logo">
+                <svg width="64" height="64" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+                    <circle cx="16" cy="16" r="15" fill="url(#aurora-gradient)" stroke="#fff" stroke-width="2"/>
+                    <path d="M10 22C12 18 20 18 22 22" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+                    <ellipse cx="16" cy="14" rx="6" ry="4" fill="#fff" fill-opacity="0.15"/>
+                    <circle cx="16" cy="14" r="2" fill="#fff"/>
+                    <defs>
+                        <linearGradient id="aurora-gradient" x1="0" y1="0" x2="32" y2="32" gradientUnits="userSpaceOnUse">
+                            <stop stop-color="#6a11cb"/>
+                            <stop offset="1" stop-color="#2575fc"/>
+                        </linearGradient>
+                    </defs>
+                </svg>
+                <div class="brand-title">ScrapeWise</div>
+            </div>
+            
+            <main>
+                @RenderBody()
+            </main>
+            
+            <div class="identity-footer">
+                <small>&copy; @DateTime.Now.Year ScrapeWise - Intelligent Web Scraping</small>
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="~/js/site.js" asp-append-version="true"></script>
+    
+    <script>
+        // Password toggle functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.password-toggle');
+            toggleButtons.forEach(function(button) {
+                button.addEventListener('click', function() {
+                    const input = this.previousElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    if (input.type === 'password') {
+                        input.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        input.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
+        });
+    </script>
+    
+    @await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

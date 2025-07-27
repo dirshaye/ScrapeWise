@@ -1,4 +1,4 @@
-@model IEnumerable<Tag>
+@model IEnumerable<TagViewModel>
 @{
     ViewData["Title"] = "Tag Management";
 }
@@ -30,19 +30,21 @@
                 <tr>
                     <th>Name</th>
                     <th>Color</th>
+                    <th>Usage Count</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var tag in Model)
+                @foreach (var tagModel in Model)
                 {
                     <tr>
-                        <td>@tag.Name</td>
-                        <td><span class="badge" style="background:@tag.Color; color:#fff;">@tag.Color</span></td>
+                        <td>@tagModel.Tag.Name</td>
+                        <td><span class="badge" style="background:@tagModel.Tag.Color; color:#fff;">@tagModel.Tag.Color</span></td>
+                        <td><span class="badge badge-info">@tagModel.JobCount jobs</span></td>
                         <td>
                             <form asp-action="Delete" method="post" style="display:inline;" onsubmit="return confirm('Delete this tag?');">
                                 @Html.AntiForgeryToken()
-                                <input type="hidden" name="id" value="@tag.TagId" />
+                                <input type="hidden" name="id" value="@tagModel.Tag.TagId" />
                                 <button type="submit" class="btn btn-danger btn-sm">Delete</button>
                             </form>
                         </td>

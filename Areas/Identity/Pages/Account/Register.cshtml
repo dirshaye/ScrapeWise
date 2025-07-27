@@ -1,0 +1,96 @@
+@page
+@model RegisterModel
+@{
+    ViewData["Title"] = "Create Account";
+    Layout = "~/Areas/Identity/Pages/Shared/_Layout.cshtml";
+}
+
+<div class="text-center mb-4">
+    <h1 class="h3 mb-2" style="color: #fff; font-weight: 600;">Create Your Account</h1>
+    <p style="color: rgba(255,255,255,0.7);">Join ScrapeWise to start intelligent web scraping</p>
+</div>
+
+<form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger mb-3" role="alert"></div>
+    
+    <div class="mb-3">
+        <label asp-for="Input.Email" class="form-label">Email Address</label>
+        <input asp-for="Input.Email" class="form-control" autocomplete="username" aria-required="true" placeholder="Enter your email" />
+        <span asp-validation-for="Input.Email" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3 position-relative">
+        <label asp-for="Input.Password" class="form-label">Password</label>
+        <input asp-for="Input.Password" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Create a strong password" type="password" id="passwordInput" />
+        <button type="button" class="password-toggle" title="Show/Hide Password">
+            <i class="fas fa-eye"></i>
+        </button>
+        <span asp-validation-for="Input.Password" class="text-danger"></span>
+    </div>
+    
+    <div class="mb-3 position-relative">
+        <label asp-for="Input.ConfirmPassword" class="form-label">Confirm Password</label>
+        <input asp-for="Input.ConfirmPassword" class="form-control" autocomplete="new-password" aria-required="true" placeholder="Confirm your password" type="password" id="confirmPasswordInput" />
+        <button type="button" class="password-toggle" title="Show/Hide Password">
+            <i class="fas fa-eye"></i>
+        </button>
+        <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
+    </div>
+    
+    <div class="d-grid mb-3">
+        <button id="registerSubmit" type="submit" class="btn btn-primary">
+            <i class="fas fa-user-plus me-2"></i>Create Account
+        </button>
+    </div>
+    
+    <div class="text-center">
+        <p class="mb-0">
+            Already have an account? <a asp-page="./Login" asp-route-returnUrl="@Model.ReturnUrl" class="btn-link">Sign in</a>
+        </p>
+    </div>
+</form>
+
+@if ((Model.ExternalLogins?.Count ?? 0) > 0)
+{
+    <div class="external-login-section">
+        <h3>Or register with</h3>
+        <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+            <div class="d-grid gap-2">
+                @foreach (var provider in Model.ExternalLogins!)
+                {
+                    <button type="submit" class="btn btn-outline-light" name="provider" value="@provider.Name" title="Register using your @provider.DisplayName account">
+                        <i class="fab fa-@provider.Name.ToLower() me-2"></i>@provider.DisplayName
+                    </button>
+                }
+            </div>
+        </form>
+    </div>
+}
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const toggleButtons = document.querySelectorAll('.password-toggle');
+            
+            toggleButtons.forEach(function(button) {
+                button.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const passwordInput = this.previousElementSibling;
+                    const icon = this.querySelector('i');
+                    
+                    if (passwordInput.type === 'password') {
+                        passwordInput.type = 'text';
+                        icon.classList.remove('fa-eye');
+                        icon.classList.add('fa-eye-slash');
+                    } else {
+                        passwordInput.type = 'password';
+                        icon.classList.remove('fa-eye-slash');
+                        icon.classList.add('fa-eye');
+                    }
+                });
+            });
+        });
+    </script>
+}

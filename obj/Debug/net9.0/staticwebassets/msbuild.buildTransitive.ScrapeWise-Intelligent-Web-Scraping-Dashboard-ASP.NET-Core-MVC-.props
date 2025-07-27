@@ -1,3 +1,0 @@
-﻿<Project>
-  <Import Project="../buildMultiTargeting/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.props" />
-</Project>

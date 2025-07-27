@@ -4,18 +4,18 @@
 
 ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC that transforms complex web scraping into a simple, accessible process. It features a dynamic "Aurora Glass" theme and demonstrates key data relationship concepts, including one-to-one (User to Profile) and one-to-many (User to Jobs, Job to Results).
 
-**🎯 Perfect for:** Data analysts, researchers, business owners, students, and anyone who needs to extract information from websites without technical knowledge.
+**Perfect for:** Data analysts, researchers, business owners, students, and anyone who needs to extract information from websites without technical knowledge.
 
 ---
 
-## ✨ Features
+## Features
 
-### **🎨 Modern & User-Friendly Interface**
+### **Modern & User-Friendly Interface**
 - **Aurora Glass Theme:** Beautiful, dynamic UI with glassmorphism effects
 - **Responsive Design:** Works perfectly on desktop, tablet, and mobile devices
 - **Intuitive Navigation:** Clean, professional interface that's easy to use
 
-### **📊 Complete Job Management**
+### **Complete Job Management**
 - **Easy Job Creation:** Create scraping jobs with just a URL and CSS selector
 - **Visual Help System:** Built-in step-by-step guide for finding CSS selectors
 - **Quick Examples:** Ready-to-use templates for popular websites
@@ -23,12 +23,12 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 - **Detailed Results:** Dive deep into each job's parameters and extracted data
 - **Safe Deletion:** Remove jobs with confirmation modals
 
-### **👤 User Profile System**
+### **User Profile System**
 - **Personalized Experience:** Customize your display name and avatar
 - **Scraping Preferences:** Set custom user agents and request delays
 - **One-to-One Relationship:** Demonstrates advanced database concepts
 
-### **🔧 Technical Excellence**
+### **Technical Excellence**
 - **Persistent Storage:** All data saved to database using Entity Framework Core
 - **Error Handling:** Graceful error management with helpful messages
 - **Security:** CSRF protection and input validation
@@ -36,7 +36,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ---
 
-## 🛠️ Technology Stack
+## Technology Stack
 
 - **Backend:** C#, ASP.NET Core MVC
 - **Database:** Entity Framework Core, Postgres
@@ -46,7 +46,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ---
 
-## 🚀 Getting Started
+## Getting Started
 
 ### Prerequisites
 
@@ -86,7 +86,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ---
 
-## 📖 How to Use ScrapeWise
+## How to Use ScrapeWise
 
 ### **For Beginners (No Technical Knowledge Required)**
 
@@ -107,7 +107,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ---
 
-## 🎯 Real-World Use Cases
+## Real-World Use Cases
 
 - **E-commerce:** Monitor competitor prices across different stores
 - **Research:** Collect data for academic studies and market analysis
@@ -118,7 +118,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ---
 
-## 📸 Screenshots
+## Screenshots
 
 | Dashboard | New Scrape |
 | :---: | :---: |
@@ -130,7 +130,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ---
 
-## 🔮 Future Enhancements
+## Future Enhancements
 
 - **Visual Selector Tool:** Click-to-select elements on websites
 - **Scheduled Scraping:** Automated jobs that run at specified intervals
@@ -141,7 +141,7 @@ ScrapeWise is a modern, user-friendly web dashboard built with ASP.NET Core MVC 
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 This project was developed as a school assignment demonstrating ASP.NET Core MVC, Entity Framework Core, and modern web development practices. It showcases:
 
@@ -152,6 +152,6 @@ This project was developed as a school assignment demonstrating ASP.NET Core MVC
 
 ---
 
-## 📄 License
+## License
 
 This project is created for educational purposes as part of a web development course assignment.

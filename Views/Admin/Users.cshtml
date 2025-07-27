@@ -1,4 +1,4 @@
-@model IEnumerable<User>
+@model IEnumerable<MyUser>
 @using System.Security.Claims
 @{
     ViewData["Title"] = "User Management";
@@ -12,8 +12,6 @@
                 <tr>
                     <th>Email</th>
                     <th>Username</th>
-                    <th>Password</th>
-                    <th>Role</th>
                     <th>Status</th>
                     <th>Actions</th>
                 </tr>
@@ -24,11 +22,6 @@
                     <tr>
                         <td>@user.Email</td>
                         <td>@user.UserName</td>
-                        <td>
-                            <span id="pw-@user.Id" style="letter-spacing:2px;">********</span>
-                            <button type="button" class="btn btn-sm btn-secondary ms-2" id="btn-pw-@user.Id" onclick="togglePassword(@user.Id, '@user.Password')">Show Password</button>
-                        </td>
-                        <td>@user.Role</td>
                         <td>@(user.IsActive ? "Active" : "Inactive")</td>
                         <td>
                             @if (user.Email != currentUserEmail)
@@ -50,17 +43,4 @@
             </tbody>
         </table>
     </div>
-</div>
-<script>
-function togglePassword(userId, password) {
-    var span = document.getElementById('pw-' + userId);
-    var btn = document.getElementById('btn-pw-' + userId);
-    if (span.innerText === '********') {
-        span.innerText = password;
-        btn.innerText = 'Hide Password';
-    } else {
-        span.innerText = '********';
-        btn.innerText = 'Show Password';
-    }
-}
-</script> 
+</div> 
