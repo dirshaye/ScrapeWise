@@ -1,8 +1,19 @@
 using System.Collections.Generic;
 
+/// <summary>
+/// Represents a tag that can be associated with scraping jobs
+/// Used for categorizing and organizing scraping operations
+/// </summary>
 public class Tag
 {
+    /// <summary>
+    /// Primary key for the tag
+    /// </summary>
     public int TagId { get; set; }
+
+    /// <summary>
+    /// The display name of the tag
+    /// </summary>
     public string Name { get; set; } = string.Empty;
 
     /// <summary>

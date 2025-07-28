@@ -2,23 +2,40 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.EntityFrameworkCore;
 
+/// <summary>
+/// Controller for administrative functions and user management
+/// Restricted to users with Admin role only
+/// </summary>
 [Authorize(Roles = "Admin")]
 public class AdminController : Controller
 {
     private readonly AppDbContext _context;
+
+    /// <summary>
+    /// Initializes a new instance of the AdminController
+    /// </summary>
+    /// <param name="context">Database context for data operations</param>
     public AdminController(AppDbContext context)
     {
         _context = context;
     }
 
-    // GET: /Admin/Users
+    /// <summary>
+    /// Displays all users in the system with their profiles
+    /// </summary>
+    /// <returns>View containing list of all users</returns>
     public async Task<IActionResult> Users()
     {
         var users = await _context.Users.Include(u => u.Profile).ToListAsync();
         return View(users);
     }
 
-    // POST: /Admin/DeleteUser
+    /// <summary>
+    /// Deletes a user account from the system
+    /// Prevents admin from deleting their own account
+    /// </summary>
+    /// <param name="id">User ID to delete</param>
+    /// <returns>Redirect to Users page or NotFound if user doesn't exist</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteUser(int id)

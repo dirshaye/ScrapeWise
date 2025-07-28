@@ -1,5 +1,7 @@
+// Main entry point for the ScrapeWise application
+// Configures services, middleware pipeline, and starts the web server
+
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.DependencyInjection;
 using Microsoft.AspNetCore.Identity;
 
 var builder = WebApplication.CreateBuilder(args);

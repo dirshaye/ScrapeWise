@@ -4,16 +4,29 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Authentication;
 
+/// <summary>
+/// Controller for managing user profiles and preferences
+/// Handles user profile display and updates
+/// </summary>
 [Authorize]
 public class ProfileController : Controller
 {
     private readonly AppDbContext _context;
 
+    /// <summary>
+    /// Initializes a new instance of the ProfileController
+    /// </summary>
+    /// <param name="context">Database context for data operations</param>
     public ProfileController(AppDbContext context)
     {
         _context = context;
     }
 
+    /// <summary>
+    /// Displays the current user's profile information
+    /// Creates a default profile if none exists
+    /// </summary>
+    /// <returns>Profile view with user's profile data</returns>
     public async Task<IActionResult> Index()
     {
         var userEmail = User.FindFirst(System.Security.Claims.ClaimTypes.Email)?.Value;
@@ -26,6 +39,11 @@ public class ProfileController : Controller
         return View(user.Profile);
     }
 
+    /// <summary>
+    /// Updates the current user's profile information
+    /// </summary>
+    /// <param name="profile">Profile data from the form</param>
+    /// <returns>Updated profile view or error page</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> Index(Profile profile)
@@ -47,6 +65,10 @@ public class ProfileController : Controller
         return View(user.Profile);
     }
 
+    /// <summary>
+    /// Deactivates the current user's account and signs them out
+    /// </summary>
+    /// <returns>Redirect to login page with confirmation message</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeactivateAccount()
@@ -62,6 +84,11 @@ public class ProfileController : Controller
         return RedirectToAction("Login", "Account");
     }
 
+    /// <summary>
+    /// Permanently deletes the current user's account and all associated data
+    /// Signs out the user and redirects to registration page
+    /// </summary>
+    /// <returns>Redirect to registration page with confirmation message</returns>
     [HttpPost]
     [ValidateAntiForgeryToken]
     public async Task<IActionResult> DeleteAccount()
