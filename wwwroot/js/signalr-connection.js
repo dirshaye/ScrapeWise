@@ -1,5 +1,16 @@
 // SignalR Real-time Connection for ScrapeWise
 // Manages real-time updates for scraping jobs
+//
+// INTEGRATION POINTS:
+// - Connected to: /scrapingHub endpoint (Program.cs)
+// - Used on pages: Jobs/Create.cshtml, Jobs/Index.cshtml
+// - Receives events from: JobsController.cs during scraping operations
+//
+// REAL-TIME FEATURES:
+// - Live job progress updates
+// - Scraping status notifications
+// - Error alerts and completion messages
+// - Toast notifications for user feedback
 
 class ScrapeWiseSignalR {
     constructor() {

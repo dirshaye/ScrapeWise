@@ -4,6 +4,21 @@ using System.Threading.Tasks;
 /// <summary>
 /// SignalR hub for real-time updates on scraping jobs.
 /// Used to notify clients about job status, results, and errors.
+/// 
+/// USAGE LOCATIONS:
+/// - JobsController.cs: Sends job status notifications during scraping
+/// - signalr-connection.js: Client-side connection and event handling
+/// - Views/Jobs/Create.cshtml: Real-time progress display
+/// - Views/Jobs/Index.cshtml: Live job status updates
+/// 
+/// ENDPOINTS:
+/// - /scrapingHub: Main hub endpoint (configured in Program.cs)
+/// 
+/// REAL-TIME EVENTS:
+/// - JobStarted: When scraping begins
+/// - JobProgress: During scraping (new results found)
+/// - JobCompleted: When scraping finishes successfully
+/// - JobFailed: When scraping encounters errors
 /// </summary>
 public class ScrapingHub : Hub
 {

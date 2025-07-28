@@ -13,22 +13,26 @@ namespace ScrapeWise_Intelligent_Web_Scraping_Dashboard_ASP.NET_Core_MVC_.Contro
 /// <summary>
 /// Controller responsible for managing scraping jobs
 /// Handles CRUD operations for ScrapingJob entities only
+/// Uses TagService for tag operations to maintain separation of concerns
 /// </summary>
 [Authorize]
 public class JobsController : Controller
 {
     private readonly AppDbContext _context;
     private readonly IHubContext<ScrapingHub> _hubContext;
+    private readonly ITagService _tagService;
 
     /// <summary>
     /// Initializes a new instance of the JobsController
     /// </summary>
-    /// <param name="context">Database context for data operations</param>
+    /// <param name="context">Database context for job operations</param>
     /// <param name="hubContext">SignalR hub context for real-time notifications</param>
-    public JobsController(AppDbContext context, IHubContext<ScrapingHub> hubContext)
+    /// <param name="tagService">Tag service for tag-related operations</param>
+    public JobsController(AppDbContext context, IHubContext<ScrapingHub> hubContext, ITagService tagService)
     {
         _context = context;
         _hubContext = hubContext;
+        _tagService = tagService;
     }
 
     /// <summary>
@@ -84,9 +88,9 @@ public class JobsController : Controller
     /// Loads available tags for user selection
     /// </summary>
     /// <returns>View with available tags</returns>
-    public IActionResult Create()
+    public async Task<IActionResult> Create()
     {
-        ViewBag.Tags = _context.Tags.ToList();
+        ViewBag.Tags = await _tagService.GetAllTagsAsync();
         return View();
     }
 
@@ -94,9 +98,9 @@ public class JobsController : Controller
     /// Alias for Create action - supports /Jobs/NewJob route
     /// </summary>
     /// <returns>View with available tags</returns>
-    public IActionResult NewJob()
+    public async Task<IActionResult> NewJob()
     {
-        ViewBag.Tags = _context.Tags.ToList();
+        ViewBag.Tags = await _tagService.GetAllTagsAsync();
         return View("Create"); // Use the same Create view
     }
 
@@ -134,10 +138,10 @@ public class JobsController : Controller
                 UserId = currentUser.Id
             };
 
-            // Tag assignment algorithm - Many-to-Many relationship handling
+            // Tag assignment algorithm - Many-to-Many relationship handling  
             if (selectedTags != null && selectedTags.Length > 0)
             {
-                var tags = _context.Tags.Where(t => selectedTags.Contains(t.TagId)).ToList();
+                var tags = await _tagService.GetTagsByIdsAsync(selectedTags);
                 foreach (var tag in tags)
                 {
                     job.Tags.Add(tag);
