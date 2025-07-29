@@ -5,9 +5,9 @@ EXPOSE 443
 
 FROM mcr.microsoft.com/dotnet/sdk:9.0 AS build
 WORKDIR /src
-COPY ["ScrapeWise.csproj", "./"]
+COPY ["src/ScrapeWise.csproj", "./"]
 RUN dotnet restore "ScrapeWise.csproj"
-COPY . .
+COPY src/ .
 WORKDIR "/src"
 RUN dotnet build "ScrapeWise.csproj" -c Release -o /app/build
 

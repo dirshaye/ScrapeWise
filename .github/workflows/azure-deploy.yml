@@ -26,16 +26,16 @@ jobs:
         dotnet-version: '9.0.x'
     
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore src/ScrapeWise.csproj
     
     - name: Build application
-      run: dotnet build --no-restore --configuration Release
+      run: dotnet build src/ScrapeWise.csproj --no-restore --configuration Release
     
     - name: Run tests
-      run: dotnet test --no-build --configuration Release --verbosity normal
+      run: dotnet test src/ScrapeWise.csproj --no-build --configuration Release --verbosity normal
     
     - name: Publish application
-      run: dotnet publish --no-build --configuration Release --output ./publish
+      run: dotnet publish src/ScrapeWise.csproj --no-build --configuration Release --output ./publish
     
     - name: Upload build artifacts
       uses: actions/upload-artifact@v4
