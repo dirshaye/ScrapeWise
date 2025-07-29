@@ -68,6 +68,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Mb2dpbldpdGhSZWNvdmVyeUNvZGUuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/Areas/Identity/Pages/Account/Login_new.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Mb2dpbl9uZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/Areas/Identity/Pages/Account/Logout.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9Mb2dvdXQuY3NodG1s
 build_metadata.AdditionalFiles.CssScope = 
@@ -152,6 +156,10 @@ build_metadata.AdditionalFiles.CssScope =
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9SZWdpc3RlckNvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
+[/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/Areas/Identity/Pages/Account/Register_new.cshtml]
+build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9SZWdpc3Rlcl9uZXcuY3NodG1s
+build_metadata.AdditionalFiles.CssScope = 
+
 [/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/Areas/Identity/Pages/Account/ResendEmailConfirmation.cshtml]
 build_metadata.AdditionalFiles.TargetPath = QXJlYXMvSWRlbnRpdHkvUGFnZXMvQWNjb3VudC9SZXNlbmRFbWFpbENvbmZpcm1hdGlvbi5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
@@ -218,6 +226,10 @@ build_metadata.AdditionalFiles.CssScope =
 
 [/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/Views/Home/Privacy.cshtml]
 build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9Qcml2YWN5LmNzaHRtbA==
+build_metadata.AdditionalFiles.CssScope = 
+
+[/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/Views/Home/SignalRTest.cshtml]
+build_metadata.AdditionalFiles.TargetPath = Vmlld3MvSG9tZS9TaWduYWxSVGVzdC5jc2h0bWw=
 build_metadata.AdditionalFiles.CssScope = 
 
 [/home/dre/Desktop/Github/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-/Views/Jobs/Create.cshtml]
