@@ -1,5 +1,3 @@
-![CI](https://github.com/dirshaye/ScrapeWise/actions/workflows/azure-deploy.yml/badge.svg)
-
 # ScrapeWise - Web Scraping Dashboard
 
 [![Build and Deploy to Azure](https://github.com/dirshaye/ScrapeWise/actions/workflows/azure-deploy.yml/badge.svg)](https://github.com/dirshaye/ScrapeWise/actions/workflows/azure-deploy.yml)
