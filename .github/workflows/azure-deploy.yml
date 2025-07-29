@@ -1,0 +1,197 @@
+name: Build and Deploy to Azure
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+env:
+  AZURE_WEBAPP_NAME: scrapewise-app-x2w3nky2
+  RESOURCE_GROUP: scrapewise_resource
+  ACR_NAME: scrapewiseacrx2w3nky2
+  IMAGE_NAME: scrapewise
+  
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v4
+      with:
+        dotnet-version: '9.0.x'
+    
+    - name: Restore dependencies
+      run: dotnet restore
+    
+    - name: Build application
+      run: dotnet build --no-restore --configuration Release
+    
+    - name: Run tests
+      run: dotnet test --no-build --configuration Release --verbosity normal
+    
+    - name: Publish application
+      run: dotnet publish --no-build --configuration Release --output ./publish
+    
+    - name: Upload build artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: published-app
+        path: ./publish
+        retention-days: 30
+
+  deploy-to-azure:
+    needs: build-and-test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Download build artifacts
+      uses: actions/download-artifact@v4
+      with:
+        name: published-app
+        path: ./publish
+    
+    - name: Log in to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Get current deployment info for rollback
+      id: current-deployment
+      run: |
+        CURRENT_IMAGE=$(az webapp config show --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }} --query "linuxFxVersion" --output tsv)
+        echo "current-image=$CURRENT_IMAGE" >> $GITHUB_OUTPUT
+        echo "Current image: $CURRENT_IMAGE"
+    
+    - name: Log in to Azure Container Registry
+      run: |
+        az acr login --name ${{ env.ACR_NAME }}
+    
+    - name: Build and tag Docker image
+      run: |
+        TIMESTAMP=$(date +%Y%m%d%H%M%S)
+        COMMIT_SHA=${GITHUB_SHA::8}
+        IMAGE_TAG="$TIMESTAMP-$COMMIT_SHA"
+        echo "IMAGE_TAG=$IMAGE_TAG" >> $GITHUB_ENV
+        
+        docker build -t ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:$IMAGE_TAG .
+        docker tag ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:$IMAGE_TAG ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+    
+    - name: Push Docker image to ACR
+      run: |
+        docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}
+        docker push ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:latest
+    
+    - name: Deploy to Azure Web App
+      id: deploy
+      run: |
+        echo "Deploying image: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+        
+        az webapp config container set \
+          --name ${{ env.AZURE_WEBAPP_NAME }} \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --docker-custom-image-name ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }} \
+          --docker-registry-server-url https://${{ env.ACR_NAME }}.azurecr.io
+        
+        echo "Restarting web app..."
+        az webapp restart --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }}
+    
+    - name: Wait for deployment to complete
+      run: |
+        echo "Waiting for deployment to stabilize..."
+        sleep 60
+    
+    - name: Health check - Test deployment
+      id: health-check
+      run: |
+        APP_URL="https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
+        echo "Testing deployment at: $APP_URL"
+        
+        # Try multiple times to allow for app startup
+        for i in {1..10}; do
+          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" $APP_URL || echo "000")
+          echo "Attempt $i: HTTP Status: $HTTP_STATUS"
+          
+          if [ "$HTTP_STATUS" = "200" ]; then
+            echo "✅ Health check passed!"
+            echo "success=true" >> $GITHUB_OUTPUT
+            exit 0
+          fi
+          
+          echo "⏳ Waiting 30 seconds before retry..."
+          sleep 30
+        done
+        
+        echo "❌ Health check failed after 10 attempts"
+        echo "success=false" >> $GITHUB_OUTPUT
+        exit 1
+    
+    - name: Rollback on failure
+      if: failure() && steps.current-deployment.outputs.current-image != ''
+      run: |
+        echo "🔄 Deployment failed, rolling back to previous version..."
+        echo "Rolling back to: ${{ steps.current-deployment.outputs.current-image }}"
+        
+        az webapp config container set \
+          --name ${{ env.AZURE_WEBAPP_NAME }} \
+          --resource-group ${{ env.RESOURCE_GROUP }} \
+          --docker-custom-image-name ${{ steps.current-deployment.outputs.current-image }} \
+          --docker-registry-server-url https://${{ env.ACR_NAME }}.azurecr.io
+        
+        az webapp restart --name ${{ env.AZURE_WEBAPP_NAME }} --resource-group ${{ env.RESOURCE_GROUP }}
+        
+        echo "✅ Rollback completed"
+    
+    - name: Deployment notification
+      if: always()
+      run: |
+        if [ "${{ steps.health-check.outputs.success }}" = "true" ]; then
+          echo "🎉 Deployment successful!"
+          echo "🔗 App URL: https://${{ env.AZURE_WEBAPP_NAME }}.azurewebsites.net"
+          echo "🏷️ Image: ${{ env.ACR_NAME }}.azurecr.io/${{ env.IMAGE_NAME }}:${{ env.IMAGE_TAG }}"
+        else
+          echo "💥 Deployment failed and was rolled back"
+        fi
+
+  cleanup-old-images:
+    needs: deploy-to-azure
+    runs-on: ubuntu-latest
+    if: success()
+    
+    steps:
+    - name: Log in to Azure
+      uses: azure/login@v2
+      with:
+        creds: ${{ secrets.AZURE_CREDENTIALS }}
+    
+    - name: Clean up old ACR images (keep last 5)
+      run: |
+        echo "Cleaning up old images from ACR..."
+        
+        # Get all tags except 'latest', sort by creation date, and delete old ones (keep last 5)
+        OLD_TAGS=$(az acr repository show-tags \
+          --name ${{ env.ACR_NAME }} \
+          --repository ${{ env.IMAGE_NAME }} \
+          --query "[?name != 'latest'] | sort_by(@, &createdTime) | [0:-5].name" \
+          --output tsv)
+        
+        if [ -n "$OLD_TAGS" ]; then
+          for tag in $OLD_TAGS; do
+            echo "Deleting old image tag: $tag"
+            az acr repository delete \
+              --name ${{ env.ACR_NAME }} \
+              --image ${{ env.IMAGE_NAME }}:$tag \
+              --yes
+          done
+          echo "✅ Cleanup completed"
+        else
+          echo "No old images to clean up"
+        fi

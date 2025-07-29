@@ -1,0 +1,22 @@
+# Terraform Configuration Files
+*.tfplan
+*.tfstate
+*.tfstate.*
+.terraform/
+.terraform.lock.hcl
+
+# Environment Variables
+.env
+.env.local
+.env.production
+
+# Sensitive Files
+terraform.tfvars
+*.auto.tfvars
+
+# Log Files
+*.log
+
+# Backup Files
+*.backup
+*.bak

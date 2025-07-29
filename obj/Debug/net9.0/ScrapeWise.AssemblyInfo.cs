@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("ScrapeWise")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+41e921de6a45cebf1e5f92a0d227eee6ed474b91")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+8046f9be76e1cc60f4633f712bb1db823d859306")]
 [assembly: System.Reflection.AssemblyProductAttribute("ScrapeWise")]
 [assembly: System.Reflection.AssemblyTitleAttribute("ScrapeWise")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]
