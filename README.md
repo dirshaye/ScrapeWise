@@ -8,23 +8,6 @@
 ## Live Demo
 **[Visit ScrapeWise Live Application](https://scrapewise-app-x2w3nky2.azurewebsites.net)**
 
-## Screenshots
-
-### Dashboard Overview
-![Dashboard](.github/images/dashboard.png)
-
-### Home Page
-![Home Page](.github/images/home.png)
-
-### Job Details
-![Job Details](.github/images/job-details.png)
-
-### Create New Scraping Job
-![New Scrape](.github/images/new-scrape.png)
-
-### User Profile
-![Profile](.github/images/profile.png)
-
 ## Overview
 
 ScrapeWise is a comprehensive web scraping platform built with ASP.NET Core MVC that enables users to create, manage, and monitor web scraping jobs through an intuitive dashboard. The application features real-time notifications, advanced job management, and a scalable architecture designed for production environments.
@@ -296,6 +279,23 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 - Deployed on Microsoft Azure cloud platform
 - Database hosted on Railway
 - CI/CD powered by GitHub Actions
+
+## Screenshots
+
+### Dashboard Overview
+![Dashboard](.github/images/dashboard.png)
+
+### Home Page
+![Home Page](.github/images/home.png)
+
+### Job Details
+![Job Details](.github/images/job-details.png)
+
+### Create New Scraping Job
+![New Scrape](.github/images/new-scrape.png)
+
+### User Profile
+![Profile](.github/images/profile.png)
 
 ---
 
