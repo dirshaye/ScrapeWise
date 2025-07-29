@@ -176,22 +176,32 @@ jobs:
       run: |
         echo "Cleaning up old images from ACR..."
         
-        # Get all tags except 'latest', sort by creation date, and delete old ones (keep last 5)
-        OLD_TAGS=$(az acr repository show-tags \
+        # Get all tags except 'latest' and sort them (timestamp-based tags will sort naturally)
+        ALL_TAGS=$(az acr repository show-tags \
           --name ${{ env.ACR_NAME }} \
           --repository ${{ env.IMAGE_NAME }} \
-          --query "[?name != 'latest'] | sort_by(@, &createdTime) | [0:-5].name" \
-          --output tsv)
+          --query "[?name != 'latest'].name" \
+          --output tsv | sort -r)
         
-        if [ -n "$OLD_TAGS" ]; then
+        # Count total tags
+        TAG_COUNT=$(echo "$ALL_TAGS" | wc -l)
+        echo "Found $TAG_COUNT image tags (excluding 'latest')"
+        
+        # Keep only the 5 most recent tags, delete the rest
+        if [ "$TAG_COUNT" -gt 5 ]; then
+          OLD_TAGS=$(echo "$ALL_TAGS" | tail -n +6)
+          echo "Will delete $((TAG_COUNT - 5)) old image tags"
+          
           for tag in $OLD_TAGS; do
-            echo "Deleting old image tag: $tag"
-            az acr repository delete \
-              --name ${{ env.ACR_NAME }} \
-              --image ${{ env.IMAGE_NAME }}:$tag \
-              --yes
+            if [ -n "$tag" ]; then
+              echo "Deleting old image tag: $tag"
+              az acr repository delete \
+                --name ${{ env.ACR_NAME }} \
+                --image ${{ env.IMAGE_NAME }}:$tag \
+                --yes
+            fi
           done
           echo "✅ Cleanup completed"
         else
-          echo "No old images to clean up"
+          echo "Only $TAG_COUNT tags found, no cleanup needed (keeping all)"
         fi
