@@ -1,5 +1,7 @@
 # ScrapeWise - Web Scraping Dashboard
 
+
+
 [![Build and Deploy to Azure](https://github.com/dirshaye/ScrapeWise/actions/workflows/azure-deploy.yml/badge.svg)](https://github.com/dirshaye/ScrapeWise/actions/workflows/azure-deploy.yml)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![.NET](https://img.shields.io/badge/.NET-9.0-purple.svg)](https://dotnet.microsoft.com/)
@@ -10,12 +12,21 @@
 
 ## Overview
 
-ScrapeWise is a comprehensive web scraping platform built with ASP.NET Core MVC that enables users to create, manage, and monitor web scraping jobs through an intuitive dashboard. The application features real-time notifications, advanced job management, and a scalable architecture designed for production environments.
+ScrapeWise is a modern web scraping platform built with Microsoft technologies and deployed to Azure. The application provides an intuitive dashboard for creating, managing, and monitoring web scraping operations with real-time updates and comprehensive analytics.
+
+**Built with Microsoft Technology Stack:**
+- **ASP.NET Core 9.0** with MVC architecture
+- **Microsoft SQL Server** and Azure SQL Database
+- **Azure App Service** for cloud hosting
+- **Entity Framework Core** for data access
+- **ASP.NET Core Identity** for authentication
+- **SignalR** for real-time communication
+- **Azure DevOps integration** via GitHub Actions
 
 ## Key Features
 
 ### Core Functionality
-- **Web Scraping**: Create and manage sophisticated scraping jobs with customizable parameters
+- **Smart Web Scraping**: Create and manage sophisticated scraping jobs with customizable parameters
 - **Real-time Dashboard**: Monitor scraping jobs with live updates via SignalR
 - **Job Management**: Schedule, pause, resume, and delete scraping operations
 - **Data Export**: Export scraped data in multiple formats (JSON, CSV, XML)
@@ -31,33 +42,38 @@ ScrapeWise is a comprehensive web scraping platform built with ASP.NET Core MVC 
 - **Job Statistics**: Comprehensive analytics on scraping operations
 - **Real-time Notifications**: Instant updates on job status changes
 
-### Technical Excellence
+### Technical Features
 - **Containerized Deployment**: Docker support with Azure Container Registry
 - **CI/CD Pipeline**: Automated deployment with rollback capabilities
-- **Scalable Architecture**: Modular design following SOLID principles
+- **Scalable Architecture**: Modular design following best practices
 - **API Integration**: RESTful APIs for external integrations
 
 ## Technology Stack
 
-### Backend
-- **Framework**: ASP.NET Core 9.0 MVC
-- **Database**: PostgreSQL with Entity Framework Core
-- **Real-time**: SignalR for live updates
-- **Authentication**: ASP.NET Core Identity
-- **Containerization**: Docker
+### Backend & Microsoft Technologies
+- **ASP.NET Core 9.0** - Modern web framework with MVC architecture
+- **C# 12** - Latest language features and performance improvements
+- **Microsoft SQL Server / Azure SQL Database** - Enterprise-grade database solution
+- **Entity Framework Core** - Code-first ORM with migrations
+- **ASP.NET Core Identity** - Comprehensive authentication and authorization
+- **SignalR** - Real-time bidirectional communication
 
-### Frontend
-- **UI Framework**: Bootstrap 5 with custom CSS
-- **JavaScript**: Vanilla JS with SignalR client
-- **Charts**: Chart.js for analytics visualization
-- **Icons**: Font Awesome
+### Cloud & Infrastructure
+- **Azure App Service** - Scalable cloud hosting platform
+- **Azure Container Registry** - Docker container management
+- **Azure SQL Database** - Managed database service
+- **GitHub Actions** - Automated CI/CD pipeline
 
-### Infrastructure
-- **Cloud Platform**: Microsoft Azure
-- **Container Registry**: Azure Container Registry (ACR)
-- **App Service**: Azure App Service (Linux containers)
-- **Database**: Railway PostgreSQL
-- **CI/CD**: GitHub Actions
+### Frontend & UI
+- **Bootstrap 5** - Responsive UI framework with custom styling
+- **JavaScript ES6+** - Modern client-side development
+- **Chart.js** - Data visualization and analytics
+- **Font Awesome** - Professional icon library
+
+### Development & Deployment
+- **Docker** - Containerization technology
+- **GitHub Actions** - CI/CD automation
+- **Azure DevOps integration** - Seamless deployment pipeline
 
 ### Development Tools
 - **Infrastructure as Code**: Terraform
@@ -70,15 +86,15 @@ ScrapeWise is a comprehensive web scraping platform built with ASP.NET Core MVC 
 ### Prerequisites
 - .NET 9.0 SDK
 - Docker (optional, for containerization)
-- PostgreSQL database
+- Azure SQL Database or SQL Server
 - Git
 
 ### Local Development Setup
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/dirshaye/ScrapeWise.git
-   cd ScrapeWise
+   git clone https://github.com/dirshaye/ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-.git
+   cd ScrapeWise-Intelligent-Web-Scraping-Dashboard-ASP.NET-Core-MVC-
    ```
 
 2. **Configure Database**
@@ -95,12 +111,12 @@ ScrapeWise is a comprehensive web scraping platform built with ASP.NET Core MVC 
 
 4. **Run Database Migrations**
    ```bash
-   dotnet ef database update
+   dotnet ef database update --project src
    ```
 
 5. **Start the Application**
    ```bash
-   dotnet run
+   dotnet run --project src
    ```
 
 6. **Access the Application**

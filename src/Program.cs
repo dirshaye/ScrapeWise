@@ -4,8 +4,15 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
 using ScrapeWise.Extensions;
+using DotNetEnv;
+
+// Load environment variables from .env file
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
+
+// Add environment variables to configuration
+builder.Configuration.AddEnvironmentVariables();
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
@@ -24,7 +31,23 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")));
+{
+    // Try to get connection string from configuration first, then fall back to environment variable
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+    
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        connectionString = Environment.GetEnvironmentVariable("ConnectionStrings__DefaultConnection") 
+                          ?? Environment.GetEnvironmentVariable("DATABASE_CONNECTION_STRING");
+    }
+    
+    if (string.IsNullOrEmpty(connectionString))
+    {
+        throw new InvalidOperationException("Database connection string not found. Please set DefaultConnection in appsettings.json or as an environment variable.");
+    }
+    
+    options.UseSqlServer(connectionString);
+});
 
 builder.Services.AddIdentity<MyUser, IdentityRole>(options => {
         options.SignIn.RequireConfirmedAccount = false; // Allow login without email confirmation

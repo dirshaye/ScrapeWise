@@ -25,7 +25,15 @@ project.lock.json
 project.fragment.lock.json
 artifacts/
 
-# ASP.NET Scaffolding
+# AS# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Documentation with sensitive info
+ENVIRONMENT_SETUP.mdScaffolding
 ScaffoldingReadMe.txt
 
 # Test Results
@@ -315,3 +323,6 @@ Thumbs.db
 # Application specific
 scraped.html
 *.log
+
+# Environment setup file (keep local only)
+ENVIRONMENT_SETUP.md
